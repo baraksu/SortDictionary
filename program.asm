@@ -353,12 +353,12 @@
         
         ; Find the lowest word
         ;push offset lowestWordIndex ; [bp+16]
-        ;push offset testStr ; [bp+14]
-        ;push numOfWords ; [bp+12]
-        ;push 0 ; [bp+10]
-        ;push offset startIndex ; [bp+8]
-        ;push offset endIndex ; [bp+6]
-        ;push offset lowestIndex ; [bp+4]
+;        push offset testStr ; [bp+14]
+;        push numOfWords ; [bp+12]
+;        push 0 ; [bp+10]
+;        push offset startIndex ; [bp+8]
+;        push offset endIndex ; [bp+6]
+;        push offset lowestIndex ; [bp+4]
         ;call findLowestWord
         
         ; Switch variable values
