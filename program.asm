@@ -8,20 +8,18 @@
     ; define the string
     strMaxLen equ 150
     ;str db strMaxLen dup('$')
-    numOfWords dw 1
+    numOfWords db 1
     
     ; define the index arrays
-    startIndex db 25 dup(?)
-    endIndex db 25 dup(?)
+    startIndex db 20 dup(?)
+    endIndex db 20 dup(?)
     
     ; define the lowest chars array
-    lowestIndex db 25 dup(?)
+    lowestIndex db 20 dup(?)
     lowestWordIndex db ?
     
     ;TEMP variables, for testing
-    testStr db "vera,tulip,turkey,watermelon,wisteria,xyl."
-    var1 db 13
-    var2 db 67
+    testStr db "real,radio,chaos,railing."
 .CODE
     proc takeStringInput
         ; this folowing code helps us accsses values that were put in the stack ->
@@ -60,7 +58,7 @@
             pop ax
             
             pop bp
-            ret
+            ret 2
     endp takeStringInput 
 
     proc setIndexes
@@ -137,7 +135,7 @@
                     pop ax
                     
                     pop bp
-                    ret
+                    ret 8
                         
                 
                 nextIter:
@@ -146,6 +144,7 @@
                     jmp setIndexesLoop
         
     endp setIndexes
+    
     
     proc findLowestWord
         ; CALL this function in order: ->
@@ -163,19 +162,26 @@
         push dx
         push di
         push bx
+        push cx
         
         
+        ;xor cx, cx
+        ;mov cx, [bp+12]
+        xor dx, dx
         ; make a copy of startIndex in lowestIndex
         xor si, si
+        mov si, [bp+10] ; initial si 
         copyToLowestLoop:
-            mov bx, [bp+8]
-            mov ax, [bx+si]
-                
-            mov bx, [bp+4]
-            mov [bx+si], ax
+            mov bx, [bp+8] ; offset startIndex
+            mov al, [bx+si] ; start of si-word (value)
+            
+            xor bx, bx    
+            mov bx, [bp+4] ; offset lowestIndex
+            mov [bx+si], al ; set the si index in lowestWord to al
                 
             inc si
-            cmp si, [bp+12]
+            mov dl, byte ptr [bp+12]
+            cmp si, dx ; cmp si to the number of words
             jb copyToLowestLoop
         
         
@@ -183,11 +189,14 @@
         xor ax, ax
         xor dx, dx
         xor bx, bx
-        ; This loop iterates over each char using di+1 as the char number
+        xor cx, cx
+        ; This loop iterates over each char using di as the char index
         charLoop:
             mov dl, 'z'
             xor si, si
             mov si, [bp+10]
+            xor cx, cx
+            mov cl, byte ptr [bp+12] ; numOfWords value
             ; This loop iterates over each word, and operates on the char in place di+1  
             findLowestLoop:
                 ; get the offset of the word in lowestIndex, ->
@@ -196,7 +205,7 @@
                 add bx, si
                 
                 ; Check if the current index in lowestIndex has the elimination char. ->
-                ; If so, than continue to the next operation.
+                ; If so, then continue to the next operation.
                 cmp [bx], elimCharAscii
                 je findLowestLoop_continue
                 
@@ -232,12 +241,13 @@
                 
                 findLowestLoop_continue:
                     inc si
-                    cmp si, [bp+12] ; numOfWords
+                    cmp si, cx ; numOfWords
                     jb findLowestLoop
             
             xor si, si
             mov si, [bp+10]
-            mov cx, [bp+12]
+            xor cx, cx
+            mov cl, byte ptr [bp+12] ; numOfWords value
             eliminateNonLowestLoop:
                 ; get the offset of the word in startIndex
                 mov bx, [bp+4]
@@ -262,20 +272,27 @@
                     add bx, si
                     mov [bx], elimCharAscii
                     
-                    dec cx
+                    dec cl ; dec the number of words left
                     jmp eliminateContinue  
                 
                 ; save the index(in startIndex) of the lowest word lowestWordIndex
                 setLowest:
+                    xor ax, ax
+                    mov ax, si
                     mov bx, [bp+16]
-                    mov [bx], si
-                
+                    mov [bx], al
+                    
+;                    mov bx, [bp+16]
+;                    mov [bx], si
                 eliminateContinue:
-                    cmp cx, 0 ; because we dec before cmp
+                    ;cmp cx, 0 ; because we dec before cmp
+                    cmp cl, 1 ; check if the we have only the lowest word left
                     je exitProcFindLowest
                               
                     inc si
-                    cmp si, [bp+12]
+                    xor ax, ax
+                    mov al, byte ptr [bp+12]
+                    cmp si, ax
                     jb eliminateNonLowestLoop
 
             inc di
@@ -286,20 +303,27 @@
         ; If the last word is the lowest, than jmp here and set ->
         ; lowestWordIndex with the index(in startIndex) of the last word    
         exitWithLowest:
+            xor ax, ax
+            mov ax, si
             mov bx, [bp+16]
-            mov [bx], si        
-        
+            mov [bx], al
+            
+;            mov bx, [bp+16]
+;            mov [bx], si        
+;        
         exitProcFindLowest:
             ; exit the proc
             ; pop the registers back from the stack
+            pop cx
             pop bx
             pop di 
             pop dx 
             pop ax
             pop si
             pop bp
-            ret
+            ret 12
     endp findLowestWord
+    
     
     proc switchByteSize
         ; CALL this function in order: offset var1, offset var2
@@ -311,6 +335,10 @@
         push bx
         push ax
         push dx
+        
+        xor ax, ax
+        xor bx, bx
+        xor dx, dx
         
         mov bx, [bp+6] ; offset of var1
         mov al, [bx] ; value of var1
@@ -331,10 +359,166 @@
             pop ax
             pop bx
             pop bp    
-            ret
+            ret 4
     endp switchByteSize
     
- 
+    
+    proc Alphabetize
+        ;   01 34 67 910 1213 1516
+        ; | dd,nn,oo,bb, aa,  cc.
+        ;  aa, | nn,oo,bb,dd,cc.
+        ;  aa,bb | oo,nn,dd,cc.
+        ;  aa,bb,cc | nn,dd,oo.
+        ;  aa,bb,cc,dd | nn,oo.
+        ;  aa,bb,cc,dd,nn | oo.
+        ;  aa,bb,cc,dd,nn,oo.
+        push bp
+        mov bp, sp
+        
+        push si
+        push bx
+        push ax
+        
+        xor si, si
+        xor bx, bx
+        xor ax, ax
+        
+        push [bp+4] ; offset numOfWords
+        push [bp+10] ; offset startIndex
+        push [bp+8] ; offset endIndex
+        push [bp+6] ; offset str
+        call setIndexes
+        
+        xor si, si
+        alphaLoop:
+            ;Find the lowest word from si on
+            push [bp+14] ; offset lowestWordIndex
+            push [bp+6] ; offset str
+            
+            mov bx, [bp+4] 
+            push [bx] ; numOfWords(value)
+            
+            push si ;intial si value for findLowestLoop
+            push [bp+10] ; offset startIndex
+            push [bp+8] ; offset endIndex
+            push [bp+12] ; offset lowestIndex
+            call findLowestWord
+            
+           ; push offset lowestWordIndex ; [bp+14]
+;            push offset lowestIndex ; [bp+12]
+;            push offset startIndex ; [bp+10]
+;            push offset endIndex ; [bp+8]
+;            push offset testStr ; [bp+6]
+;            push offset numOfWords ; [bp+4]
+            
+            ; Switch the lowest word with the word in index si (switch in startIndex)
+            mov bx, [bp+14] ; offset lowestWordIndex
+            mov al, [bx] ; lowestWordIndex value
+            mov bx, [bp+10] ; offset startIndex
+            add ax, bx ; ax has the offset of the lowest word (in startIndex)
+            
+            xor bx, bx
+            mov bx, [bp+10] ; offset startIndex
+            add bx, si ; bx has the offset of the word in index si (in startIndex)
+            
+            push ax
+            push bx
+            call switchByteSize
+            
+            ; Switch the lowest word with the word in index si (switch in endIndex)
+            mov bx, [bp+14] ; offset lowestWordIndex
+            mov al, [bx] ; lowestWordIndex value
+            mov bx, [bp+8] ; offset endIndex
+            add ax, bx ; ax has the offset of the lowest word (in endIndex)
+            
+            xor bx, bx
+            mov bx, [bp+8] ; offset endIndex
+            add bx, si ; bx has the offset of the word in index si (in endIndex)
+            
+            push ax
+            push bx
+            call switchByteSize
+            
+            inc si
+            xor bx, bx
+            mov bx, [bp+4]
+            xor ax, ax
+            mov al, byte ptr [bx]
+            dec al ; now al has the number of words that the loop needs to iterate through
+            cmp si, ax
+            jb alphaLoop
+        
+        exitProcAlpha:
+            pop ax
+            pop bx
+            pop si
+            pop bp
+            
+            jmp testPrintW
+            ;ret x ; check what is x ===================issue!!!!!!=============================== 
+    endp Alphabetize
+    
+    proc printWords
+        push bp
+        mov bp, sp
+        
+        
+        xor di, di
+        xor bx, bx
+        xor si, si
+        printWordsLoop:
+            ; Store the start char offset in si
+            mov bx, [bp+10] ; startIndex offset
+            add bx, di ; bx has the offset of the word in startIndex
+            
+            xor ax, ax  
+            xor si, si
+            mov al, byte ptr [bx]
+            mov si, ax ; si has the start index
+            
+            ; Store the end char offset in cx
+            mov bx, [bp+8] ; endIndex offset
+            add bx, di ; bx has the offset of the word in endIndex
+            
+            xor cx, cx
+            mov cl, byte ptr [bx] ; cx has the end index
+            printCharsLoop:
+                mov bx, [bp+6]
+                add bx, si
+                
+                mov ah, 02h
+                mov dl, [bx]
+                int 21h 
+                
+                
+                inc si
+                cmp si, cx
+                jbe printCharsLoop    
+            
+            printWordsLoopContinue:
+                inc di
+                mov dx, [bp+4]
+                cmp di, [bp+4]
+                jae exitProcPrintWords
+                
+                ; print a comma to separate the words
+                mov ah, 02h
+                mov dl, commaAscii
+                int 21h 
+                jmp printWordsLoop
+        
+        
+        exitProcPrintWords:
+            ; print a dot
+            mov ah, 02h
+            mov dl, dotAscii
+            int 21h        
+                
+            pop bp
+            ret
+    endp printWords
+    
+    
     start:
         ; initialize
         mov ax, @data
@@ -344,27 +528,50 @@
         ;push offset str ; [bp+4]
         ;call takeStringInput
         
-        ; Set the indexes
-        ;push offset numOfWords ; [bp+10]
-        ;push offset startIndex ; [bp+8]
-        ;push offset endIndex ; [bp+6]
-        ;push offset testStr ; [bp+4]
-        ;call setIndexes
-        
-        ; Find the lowest word
-        ;push offset lowestWordIndex ; [bp+16]
-;        push offset testStr ; [bp+14]
-;        push numOfWords ; [bp+12]
-;        push 0 ; [bp+10]
+;        ; Set the indexes
+;        push offset numOfWords ; [bp+10]
 ;        push offset startIndex ; [bp+8]
 ;        push offset endIndex ; [bp+6]
-;        push offset lowestIndex ; [bp+4]
-        ;call findLowestWord
+;        push offset testStr ; [bp+4]
+;        call setIndexes
+;        
+;        ; Find the lowest word
+;        push offset lowestWordIndex ; [bp+16]
+;        push offset testStr ; [bp+14] -
+;        push word ptr numOfWords ; [bp+12] -
+;        push 0 ; [bp+10]
+;        push offset startIndex ; [bp+8] -
+;        push offset endIndex ; [bp+6]   -
+;        push offset lowestIndex ; [bp+4] -
+;        call findLowestWord
+;        
+;        ; Switch variable values
+;        push offset startIndex ;[bp+6]
+;        mov dl, lowestWordIndex
+;        mov bx, offset startIndex
+;        add bx, dx
+;        push bx ;[bp+4]
+;        call switchByteSize
         
-        ; Switch variable values
-        ;push offset var1 ;[bp+6]
-        ;push offset var2 ;[bp+4]
-        ;call switchByteSize
+        ; Alpha
+        
+        push offset lowestWordIndex ; [bp+14]
+        push offset lowestIndex ; [bp+12]
+        push offset startIndex ; [bp+10]
+        push offset endIndex ; [bp+8]
+        push offset testStr ; [bp+6]
+        push offset numOfWords ; [bp+4]
+        call Alphabetize
+        
+        testPrintW:
+        mov bl, numOfWords
+        push offset startIndex ; [bp+10]
+        push offset endIndex ; [bp+8]
+        push offset testStr ; [bp+6]
+        push bx ; [bp+4]
+        call printWords
+        
+        
           
     end:
         mov ax, 4c00h   ;exit program
