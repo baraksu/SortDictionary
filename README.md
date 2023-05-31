@@ -23,6 +23,7 @@ Then, the user will be required to enter words, following these instructions:
 1. The words are separated by commas.<br/>
 2. There are no spaces between words and commas.<br/>
 3. The list ends with a dot. Then the program will continue.<br/>
+
 After entering the list of words, the program  will sort the words in alphabetical order.
 Then the sorted list will be printed onto the console.
 
