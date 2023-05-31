@@ -15,13 +15,15 @@ The purpose of the program is to take an input string, which consists of words s
 procces it and return a new alphabeticaly sorted list of words.
 
 ## How does it work?
-`add runtime samples, pictures and explanation here`
+`add runtime samples, pictures and explanations here`
 ### Runtime Samples
-| Alphabetize-si| 0 |
-| --- | --- | --- |
-| input | aisle,bike,alone |
-| startIndex | 0, 6, 11
-| endIndex | 4, 9, 15
+Alphabetize-si| 0
+--- | ---
+input | aisle,bike,alone
+--- | ---
+startIndex | 0, 6, 11
+--- | ---
+endIndex | 4, 9, 15
 
 ## How to use the program?
 When running the program, the console will be opened, and a prompt will be shown on the screen.
