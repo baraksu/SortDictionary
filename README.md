@@ -20,8 +20,8 @@ procces it and return a new alphabeticaly sorted list of words.
 ## How to use the program?
 
 ## The production process
-### Step 1
-####Writing a proc that sets the indexes for each word.
+### Writing the setIndexes proc.
+Writing a proc that sets the indexes for each word.
 ### Step 2
 ####Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
 ### Step 3
