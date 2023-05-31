@@ -12,7 +12,7 @@
 ## What is the purpose of the project?
 The project was written copletely in assembly language 8086, and consists of one .asm file( see [program.asm](https://github.com/baraksu/SortDictionary/blob/main/program.asm)).
 The purpose of the program is to take an input string, which consists of words separated by commas,
-procces it and return a new alphabeticaly sorted list of words.
+process it and return a new alphabeticaly sorted list of words.
 
 ## How does it work?
 `add runtime samples, pictures and explanations here`
