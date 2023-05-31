@@ -20,16 +20,18 @@ procces it and return a new alphabeticaly sorted list of words.
 ## How to use the program?
 
 ## The production process
-### Writing the setIndexes proc.
-Writing a proc that sets the indexes for each word.
-### Step 2
-####Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
-### Step 3
-#### Writing a proc that takes string input.
-### Step 4
-####Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
-### Step 5
-#### Putting all the pieces together - Writing a proc that sorts the words alphabetically, using the proc defined in steps 1-4.
+### Writing the setIndexes proc
+Writing a proc that sets the indexes for each word, in the index arrays.
+### Writing the findLowestWord proc
+Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
+### Writing the takeStringInput proc
+Writing a proc that takes string input.
+### Writing the printWords proc
+Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
+## Writing the switchByteSize proc
+Writing a proc that takes two memory addresses and switches the values in these addresses between each other.
+### Putting all the pieces together
+Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
 
 ## What's next? Plans ahead
 
