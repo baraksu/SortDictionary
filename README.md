@@ -28,7 +28,7 @@ Writing a proc that finds the index of the lowest word alphabetically, in the in
 Writing a proc that takes string input.
 ### Writing the printWords proc
 Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
-## Writing the switchByteSize proc
+### Writing the switchByteSize proc
 Writing a proc that takes two memory addresses and switches the values in these addresses between each other.
 ### Putting all the pieces together
 Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
