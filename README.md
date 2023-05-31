@@ -21,10 +21,15 @@ procces it and return a new alphabeticaly sorted list of words.
 
 ## The production process
 ### Step 1
+####Writing a proc that sets the indexes for each word.
 ### Step 2
+####Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
 ### Step 3
+#### Writing a proc that takes string input.
 ### Step 4
+####Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
 ### Step 5
+#### Putting all the pieces together - Writing a proc that sorts the words alphabetically, using the proc defined in steps 1-4.
 
 ## What's next? Plans ahead
 
