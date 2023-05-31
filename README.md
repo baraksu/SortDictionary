@@ -28,7 +28,7 @@ expected output | bike,call,aisle. | aisle,call,bike. | aisle,bike,call.
 #### Sample 2
 word index (si)|     init      |   0  |  1  
  ------------- | ------------- | ---- | -----
-inputString | bike,call,aisle. | bike,call,aisle. | bike,call,aisle.
+inputString | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior.
 startIndex | 0, 5, 10 | 10, 5, 0 | 10, 0, 5
 endIndex | 3, 8, 14 | 14, 8, 3 | 14, 3, 8
 expected output | bike,call,aisle. | aisle,call,bike. | aisle,bike,call.
