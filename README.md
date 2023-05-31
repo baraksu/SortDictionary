@@ -17,7 +17,7 @@ procces it and return a new alphabeticaly sorted list of words.
 ## How does it work?
 `add runtime samples, pictures and explanations here`
 ### Runtime Samples
-word index (si)|       0       |   1  |  2  
+word index (si)|     init      |   0  |  1  
  ------------- | ------------- | ---- | -----
 inputString | bike,call,aisle. | bike,call,aisle. | bike,call,aisle.
 startIndex | 0, 5, 10 | 10, 5, 0 | 10, 0, 5
