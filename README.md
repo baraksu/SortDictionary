@@ -19,9 +19,10 @@ procces it and return a new alphabeticaly sorted list of words.
 ### Runtime Samples
 word index (si)| 0
  ------------- | -
-input | aisle,bike,alone
+inputString | aisle,bike,alone
 startIndex | 0, 6, 11
 endIndex | 4, 9, 15
+expected output | aisle,bike,alone
 
 ## How to use the program?
 When running the program, the console will be opened, and a prompt will be shown on the screen.
