@@ -18,7 +18,7 @@ procces it and return a new alphabeticaly sorted list of words.
 `add runtime samples, pictures and explanation here`
 ### Runtime Samples
 | Alphabetize-si| 0 |
-----------------------
+| --- | --- | --- |
 | input | aisle,bike,alone |
 | startIndex | 0, 6, 11
 | endIndex | 4, 9, 15
