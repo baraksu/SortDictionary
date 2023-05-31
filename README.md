@@ -18,11 +18,9 @@ procces it and return a new alphabeticaly sorted list of words.
 `add runtime samples, pictures and explanations here`
 ### Runtime Samples
 word index (si)| 0
-:---: | :---:
+ ------------- | -
 input | aisle,bike,alone
---- | ---
 startIndex | 0, 6, 11
---- | ---
 endIndex | 4, 9, 15
 
 ## How to use the program?
