@@ -17,8 +17,8 @@ procces it and return a new alphabeticaly sorted list of words.
 ## How does it work?
 `add runtime samples, pictures and explanations here`
 ### Runtime Samples
-Alphabetize-si| 0
-hi | sight
+word index (si)| 0
+--- | ---
 input | aisle,bike,alone
 --- | ---
 startIndex | 0, 6, 11
