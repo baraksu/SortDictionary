@@ -29,8 +29,8 @@ expected output | bike,call,aisle. | aisle,call,bike. | aisle,bike,call.
 word index (si)|     init      |   0  |  1  
  ------------- | ------------- | ---- | -----
 inputString | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior.
-startIndex | 0, 5, 10 | 10, 5, 0 | 10, 0, 5
-endIndex | 3, 8, 14 | 14, 8, 3 | 14, 3, 8
+startIndex | 0, 5, 11, 17, 22 | 10, 5, 0 | 10, 0, 5
+endIndex | 3, 9, 15, 20, 28 | 14, 8, 3 | 14, 3, 8
 expected output | bike,call,aisle. | aisle,call,bike. | aisle,bike,call.
 
 ## How to use the program?
