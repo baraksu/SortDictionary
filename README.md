@@ -1,4 +1,2 @@
-# SortDictionary
-
-Menu
-A Get    
+# Alphabetizer
+## Sorting words in alphabetical order
