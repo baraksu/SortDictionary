@@ -9,6 +9,7 @@
 - [What's next? Plans ahead](#plans)
 - [Reflection](#reflection)
 ***
+
 <a name="details"></a>
 ## Details about the project
 **Project Name:** Alphabetizing Program.<br/>
@@ -30,97 +31,103 @@ process it and return a new alphabeticaly sorted list of words.
 In this segment, we'll discuss how the program works in general.<br/>
 As mentioned before, this project was written completely in assembly language 8086.
 <br/><br/>
-The program consists of X major parts:<br/>
+The program consists of 5 major parts:<br/>
 1. Taking string input.<br/>
 2. Setting the start & end indexes for each word in the input string.<br/>
 3. Finding the lowest word alphabetically.<br/>
-4. Switching the indexes of the lowest word, and the indexes of the word in index si(will be discussed later on).<br/>
+4. Switching the indexes of the lowest word, and the indexes of the word in index `si`(see [the Alphabetize proc](#alpha)).<br/>
 5. Printing the alphabetically sorted list.<br/>
 > **Note:** parts 3-4 are not independent parts of the program, but they are significant parts of [the Alphabetize proc](#alpha), which is the main part of the program.
+
+When running the program, a propmt will show on the console, asking the user to enter a list of words into a input field.
+Then, after the list was fully submmited, the sorting process begins.<br/>
+The program will iterate through the first `numOfWords-1` words in the input string. In each iteration, the program will start iterating through the words using 2 indexes, `di` and `si`.<br/>
+The register `di` will serve as an index for the char the program is currently reviewing in each word. The register `si` on the other hand, will serve as an index for the word the program is currently reviewing it's `di`-indexed char. Using these indexes, the program is iterating through the words, and comparing each char to insure the word put in `lowestWordIndex`, is truly the lowest word alphabetically(for further information, please check out the [Writing the findLowestWord proc](#findLowestWord).
+
 <a name="alpha"><a/>
 #### The Alphabetize proc
 The Alphabetize proc is the most significant component of the program. It combines all the other procedures defined before to one proc, that sorts the words alphabetically.<br/>
 The following code makes up the proc:<br/>
 ```assembly
-    proc Alphabetize 
-         ; CALL this function in order: -> 
-         ; poffset lowestWordIndex, offset lowestIndex, offset startIndex, -> 
-         ; offset endIndex, offset testStr, offset numOfWords 
-          
-         push bp 
-         mov bp, sp 
-          
-         push si 
-         push bx 
-         push ax 
-          
-         xor si, si 
+proc Alphabetize 
+     ; CALL this function in order: -> 
+     ; offset lowestWordIndex, offset lowestIndex, offset startIndex, -> 
+     ; offset endIndex, offset testStr, offset numOfWords 
+
+     push bp 
+     mov bp, sp 
+
+     push si 
+     push bx 
+     push ax 
+
+     xor si, si 
+     xor bx, bx 
+     xor ax, ax 
+
+     alphaLoop: 
+         ;Find the lowest word from si on 
+         push [bp+14] ; offset lowestWordIndex 
+         push [bp+6] ; offset str 
+
+         mov bx, [bp+4]  
+         push [bx] ; numOfWords(value) 
+
+         push si ;intial si value for findLowestLoop 
+         push [bp+10] ; offset startIndex 
+         push [bp+8] ; offset endIndex 
+         push [bp+12] ; offset lowestIndex 
+         call findLowestWord 
+
+         ; Switch the lowest word with the word in index si (switch in startIndex) 
+         mov bx, [bp+14] ; offset lowestWordIndex 
+         mov al, [bx] ; lowestWordIndex value 
+         mov bx, [bp+10] ; offset startIndex 
+         add ax, bx ; ax has the offset of the lowest word (in startIndex) 
+
          xor bx, bx 
+         mov bx, [bp+10] ; offset startIndex 
+         add bx, si ; bx has the offset of the word in index si (in startIndex) 
+
+         push ax 
+         push bx 
+         call switchByteSize 
+
+         ; Switch the lowest word with the word in index si (switch in endIndex) 
+         mov bx, [bp+14] ; offset lowestWordIndex 
+         mov al, [bx] ; lowestWordIndex value 
+         mov bx, [bp+8] ; offset endIndex 
+         add ax, bx ; ax has the offset of the lowest word (in endIndex) 
+
+         xor bx, bx 
+         mov bx, [bp+8] ; offset endIndex 
+         add bx, si ; bx has the offset of the word in index si (in endIndex) 
+
+         push ax 
+         push bx 
+         call switchByteSize 
+
+         ; loop continues  
+         inc si 
+         xor bx, bx 
+         mov bx, [bp+4] 
          xor ax, ax 
-                  
-         alphaLoop: 
-             ;Find the lowest word from si on 
-             push [bp+14] ; offset lowestWordIndex 
-             push [bp+6] ; offset str 
-              
-             mov bx, [bp+4]  
-             push [bx] ; numOfWords(value) 
-              
-             push si ;intial si value for findLowestLoop 
-             push [bp+10] ; offset startIndex 
-             push [bp+8] ; offset endIndex 
-             push [bp+12] ; offset lowestIndex 
-             call findLowestWord 
-              
-             ; Switch the lowest word with the word in index si (switch in startIndex) 
-             mov bx, [bp+14] ; offset lowestWordIndex 
-             mov al, [bx] ; lowestWordIndex value 
-             mov bx, [bp+10] ; offset startIndex 
-             add ax, bx ; ax has the offset of the lowest word (in startIndex) 
-              
-             xor bx, bx 
-             mov bx, [bp+10] ; offset startIndex 
-             add bx, si ; bx has the offset of the word in index si (in startIndex) 
-              
-             push ax 
-             push bx 
-             call switchByteSize 
-              
-             ; Switch the lowest word with the word in index si (switch in endIndex) 
-             mov bx, [bp+14] ; offset lowestWordIndex 
-             mov al, [bx] ; lowestWordIndex value 
-             mov bx, [bp+8] ; offset endIndex 
-             add ax, bx ; ax has the offset of the lowest word (in endIndex) 
-              
-             xor bx, bx 
-             mov bx, [bp+8] ; offset endIndex 
-             add bx, si ; bx has the offset of the word in index si (in endIndex) 
-              
-             push ax 
-             push bx 
-             call switchByteSize 
-              
-             ; loop continues  
-             inc si 
-             xor bx, bx 
-             mov bx, [bp+4] 
-             xor ax, ax 
-             mov al, byte ptr [bx] 
-             dec al ; now al has the number of words that the loop needs to iterate through 
-             cmp si, ax 
-             jb alphaLoop 
-          
-         exitProcAlpha: 
-             pop ax 
-             pop bx 
-             pop si 
-             pop bp 
-              
-             jmp testPrintW 
-             ;ret x ; check what is x ===================issue!!!!!!===============================  
-     endp Alphabetize
+         mov al, byte ptr [bx] 
+         dec al ; now al has the number of words that the loop needs to iterate through 
+         cmp si, ax 
+         jb alphaLoop 
+
+     exitProcAlpha: 
+         pop ax 
+         pop bx 
+         pop si 
+         pop bp 
+
+         jmp testPrintW 
+         ;ret x ; check what is x ===================issue!!!!!!===============================  
+ endp Alphabetize
 ```
-I'll break up the lines step by step.
+I'll break up the lines step by step.<br/>
 First, the main part of the proc is the `alphaLoop` loop. The loop is done using `si` as an index, while iterating through the first `numOfWords-1` words.<br/><br/>
 
 In each iteration, there are 2 parts:
