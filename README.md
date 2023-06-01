@@ -121,7 +121,26 @@ The following code makes up the proc:<br/>
      endp Alphabetize
 ```
 I'll break up the lines step by step.
-First, the main part of the proc is the `alphaLoop` loop. The loop is done using si as an index.
+First, the main part of the proc is the `alphaLoop` loop. The loop is done using si as an index, while iterating through the first `numOfWords-1` words.<br/><br/>
+
+In each iteration, there are 2 parts:
+1. Find the index(in the index arrays) of the lowest word alphabetically.<br/>
+The following lines of code call a proc that find the index of the lowest word alphabetically and enter it into `lowestWordIndex`.<br/>
+```assembly
+push [bp+14] ; offset lowestWordIndex 
+             push [bp+6] ; offset str 
+              
+             mov bx, [bp+4]  
+             push [bx] ; numOfWords(value) 
+              
+             push si ;intial si value for findLowestLoop 
+             push [bp+10] ; offset startIndex 
+             push [bp+8] ; offset endIndex 
+             push [bp+12] ; offset lowestIndex 
+             call findLowestWord 
+```
+2. Switch the indexes of the word in index si, and the indexes of the lowest word alphabetically.
+
 ### Runtime Samples
 #### Sample 1
 word index (si)|     init      |   0  |  1  
