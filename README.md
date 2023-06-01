@@ -140,7 +140,7 @@ push [bp+12] ; offset lowestIndex
 call findLowestWord 
 ```
 2. Switch the indexes of the word in index si, and the indexes of the lowest word alphabetically.<br/>
-The following lines of code call a proc that switces the value of 2 byte-sized memoryaddresses. <br/>
+The following lines of code call a proc that switces the value of 2 byte-sized memory addresses(see [Writing the switchByteSize proc](#switch)).<br/>
 ```assembly
 ; Switch the lowest word with the word in index si (switch in startIndex) 
 mov bx, [bp+14] ; offset lowestWordIndex 
@@ -211,12 +211,17 @@ mov ax, bx
 <a name="findLowestWord"></a>
 ### Writing the findLowestWord proc
 Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
+
 ### Writing the takeStringInput proc
 Writing a proc that takes string input.
+
 ### Writing the printWords proc
 Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
+
+<a name="switch"></a>
 ### Writing the switchByteSize proc
 Writing a proc that takes two memory addresses and switches the values in these addresses between each other.
+
 ### Putting all the pieces together
 Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
 
