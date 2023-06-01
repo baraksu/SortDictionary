@@ -174,6 +174,7 @@ After finding the lowest char value in char-index `di`, the program eliminates a
 In addition, the program sets the `lowestWordIndex` to the index of each word that it's `di` index is the lowest char value.<br/>
 The following code, achives that task:<br/> 
 ```assembly
+
 xor si, si
 mov si, [bp+10]
 xor cx, cx
