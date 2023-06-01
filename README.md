@@ -40,31 +40,31 @@ The program consists of 5 major parts:<br/>
 > **Note:** parts 3-4 are not independent parts of the program, but they are significant parts of [the Alphabetize proc](#alpha), which is the main part of the program.
 
 When running the program, a propmt will show on the console, asking the user to enter a list of words into an input field.
-Then, after the list was fully submmited, the sorting process begins.<br/>
-The program will iterate through the first `numOfWords-1` words in the input string, using the `alphaLoop` loop. At first, the `alphaLoop` loop\`s index is initialized with 0.<br/>
-In each iteration, the program will start iterating through the words using 2 indexes, `di` and `si`.<br/>
+Then, after the list was fully submmited, the program will iterate throught the input string, saving each start & end index for each word in the index arrays.<br/>
+After setting the indexes, the program will iterate through the first `numOfWords-1` words in the input string, using the `alphaLoop` loop. At first, the `alphaLoop` loop\`s index is initialized with 0.<br/>
+In each iteration, the program will iterate through the words using 2 indexes, `di` and `si`.<br/>
 The register and index `si` is first initialized with the index of the `alphaLoop` loop.
 The register `di` will serve as an index for the char the program is currently reviewing in each word. The register `si` on the other hand, will serve as an index for the word the program is currently reviewing it's `di`-indexed char. Using these indexes, the program is iterating through the words, and comparing the chars to insure the index of the word put in `lowestWordIndex`, is truly the index of the lowest word alphabetically(for further information, please check out the [Writing the findLowestWord proc](#findLowestWord) segment).<br/>
-After finding the index of the lowest word alphabetically, the program will than switch the indeexes of the word in index `lowestWordIndex`, and the indexes of the word in the index of the `alphaLoop` loop.<br/>
-Then, when the indexes are finally switched, the program will then complete its iteration, increase `alphaLoop`\`s index by 1, and move on to the next iteration.
-It should be noted that now that the index is increased, the program will now find the index of the lowest word from the `alphaLoop`\`s index on, meaning the previously switched indexes will remain untouched. Because of that, in every iteration of `alphaLoop`, the indexes of lowest word from it's index on, will be placed at the lowest index avaliable, after placing the indexes of lower words aheah of that one. Then, after `numOfWords-1` iterations, the indexes will be finally sorted alphabetically.
+After finding the index of the lowest word alphabetically, the program will than switch the indeexes of the word in index `lowestWordIndex`, and the indexes of the word in the index of the `alphaLoop` loop(for further information, please check out the [Writing the switchByteSize proc](#switch) segment).<br/>
+Then, when the indexes are finally switched, the program will complete its iteration, increase `alphaLoop`\`s index by 1, and move on to the next iteration.
+It should be noted that now that the index is increased, the program will now find the index of the lowest word from the `alphaLoop`\`s index on, meaning that the previously switched indexes will remain untouched. Because of that, in every iteration of `alphaLoop`, the indexes of lowest word from it's index on, will be placed at the lowest index avaliable, after placing the indexes of lower words aheah of that one. Then, after `numOfWords-1` iterations, the indexes will be finally sorted alphabetically.
 At the end, a proc is used to print the words of the input string in the order of the indexes in the index arrays, meaning that the new alphabetically sorted list of words will be printed onto the console.
 
 ### Runtime Samples
 #### Sample 1
-word index (si)|     init      |   0  |  1  
- ------------- | ------------- | ---- | -----
-inputString | bike,call,aisle. | bike,call,aisle. | bike,call,aisle.
-startIndex | 0, 5, 10 | 10, 5, 0 | 10, 0, 5
-endIndex | 3, 8, 14 | 14, 8, 3 | 14, 3, 8
-expected output | bike,call,aisle. | aisle,call,bike. | aisle,bike,call.
+word index (si)|     init      |   0  |     1   |             2                     |   3   | 
+ ------------- | ------------- | ---- | ------- | --------------------------------- | -----
+inputString | slime,string,worth,pity,twilight. | slime,string,worth,pity,twilight. | slime,string,worth,pity,twilight. | slime,string,worth,pity,twilight.
+startIndex |     0, 6, 13, 19, 24  |  19, 6, 13, 0, 24 |  19, 0, 13, 6, 24 | 19, 0, 6, 13, 24  | 19, 0, 6, 24, 13
+endIndex |       4, 11, 17, 22, 31 | 22, 11, 17, 4, 31 | 22, 4, 17, 11, 31 | 22, 4, 11, 17, 31 | 22, 4, 11, 31, 17
+expected output | slime,string,worth,pity,twilight. | pity,string,worth,slime,twilight. | pity,slime,worth,string,twilight. | pity,slime,string,worth,twilight. | pity,slime,string,twilight,worth.
 
 #### Sample 2
 word index (si)|     init      |   0  |  1  
  ------------- | ------------- | ---- | -----
-inputString | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior.
-startIndex | 0, 5, 11, 17, 22 | 11, 5, 0, 17, 22 | 11, 17, 0, 5, 22
-endIndex | 3, 9, 15, 20, 28 | 15, 9, 3, 20, 28 | 15, 20, 3, 9, 28
+inputString | quotation,situation,necklace. | quotation,situation,necklace. | quotation,situation,necklace.
+startIndex | 0, 10, 20 | 11, 5, 0, 17, 22 | 11, 17, 0, 5, 22
+endIndex | 8, 18, 27 | 15, 9, 3, 20, 28 | 15, 20, 3, 9, 28
 expected output | arch,quite,alien,play,warrior. | alien,quite,arch,play,warrior. | alien,play,arch,quite,warrior.
 
 <a name="use"></a>
