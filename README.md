@@ -128,16 +128,16 @@ In each iteration, there are 2 parts:
 The following lines of code call a proc that find the index of the lowest word alphabetically and enter it into `lowestWordIndex`.<br/>
 ```assembly
 push [bp+14] ; offset lowestWordIndex 
-             push [bp+6] ; offset str 
+push [bp+6] ; offset str 
               
-             mov bx, [bp+4]  
-             push [bx] ; numOfWords(value) 
+mov bx, [bp+4]  
+push [bx] ; numOfWords(value) 
               
-             push si ;intial si value for findLowestLoop 
-             push [bp+10] ; offset startIndex 
-             push [bp+8] ; offset endIndex 
-             push [bp+12] ; offset lowestIndex 
-             call findLowestWord 
+push si ;intial si value for findLowestLoop 
+push [bp+10] ; offset startIndex 
+push [bp+8] ; offset endIndex 
+push [bp+12] ; offset lowestIndex 
+call findLowestWord 
 ```
 2. Switch the indexes of the word in index si, and the indexes of the lowest word alphabetically.
 
