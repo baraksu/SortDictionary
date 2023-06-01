@@ -39,9 +39,11 @@ The program consists of X major parts:<br/>
 > **Note:** parts 3-4 are not independent parts of the program, but they are significant parts of [the Alphabetize proc](#alpha), which is the main part of the program.
 <a name="alpha"><a/>
 #### The Alphabetize proc
-hdjd
-jjdjd
-jdd
+The Alphabetize proc is the most significant component of the program. It combines all the other procedures defined before to one proc, that sorts the words alphabetically.<br/>
+The following code makes up the proc:<br/>
+```assembly
+
+```
 ### Runtime Samples
 #### Sample 1
 word index (si)|     init      |   0  |  1  
