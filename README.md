@@ -39,10 +39,13 @@ The program consists of 5 major parts:<br/>
 5. Printing the alphabetically sorted list.<br/>
 > **Note:** parts 3-4 are not independent parts of the program, but they are significant parts of [the Alphabetize proc](#alpha), which is the main part of the program.
 
-When running the program, a propmt will show on the console, asking the user to enter a list of words into a input field.
+When running the program, a propmt will show on the console, asking the user to enter a list of words into an input field.
 Then, after the list was fully submmited, the sorting process begins.<br/>
-The program will iterate through the first `numOfWords-1` words in the input string. In each iteration, the program will start iterating through the words using 2 indexes, `di` and `si`.<br/>
-The register `di` will serve as an index for the char the program is currently reviewing in each word. The register `si` on the other hand, will serve as an index for the word the program is currently reviewing it's `di`-indexed char. Using these indexes, the program is iterating through the words, and comparing each char to insure the word put in `lowestWordIndex`, is truly the lowest word alphabetically(for further information, please check out the [Writing the findLowestWord proc](#findLowestWord).
+The program will iterate through the first `numOfWords-1` words in the input string, using the `alphaLoop` loop. At first, the `alphaLoop` loop\`s index is initialized with 0.<br/>
+In each iteration, the program will start iterating through the words using 2 indexes, `di` and `si`.<br/>
+The register `di` will serve as an index for the char the program is currently reviewing in each word. The register `si` on the other hand, will serve as an index for the word the program is currently reviewing it's `di`-indexed char. Using these indexes, the program is iterating through the words, and comparing the chars to insure the index of the word put in `lowestWordIndex`, is truly the index of the lowest word alphabetically(for further information, please check out the [Writing the findLowestWord proc](#findLowestWord) segment).<br/>
+After finding the index of the lowest word alphabetically, the program will than switch the indeexes of the word in index `lowestWordIndex`, and the indexes of the word in the index of the `alphaLoop` loop.<br/>
+Then, when the indexes are finally switched, the program will then complete its iteration, increase `alphaLoop`\`s index, and move on to the next iteration.
 
 <a name="alpha"><a/>
 #### The Alphabetize proc
