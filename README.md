@@ -139,7 +139,37 @@ push [bp+8] ; offset endIndex
 push [bp+12] ; offset lowestIndex 
 call findLowestWord 
 ```
-2. Switch the indexes of the word in index si, and the indexes of the lowest word alphabetically.
+2. Switch the indexes of the word in index si, and the indexes of the lowest word alphabetically.<br/>
+The following lines of code are written for that:<br/>
+```assembly
+; Switch the lowest word with the word in index si (switch in startIndex) 
+             mov bx, [bp+14] ; offset lowestWordIndex 
+             mov al, [bx] ; lowestWordIndex value 
+             mov bx, [bp+10] ; offset startIndex 
+             add ax, bx ; ax has the offset of the lowest word (in startIndex) 
+              
+             xor bx, bx 
+             mov bx, [bp+10] ; offset startIndex 
+             add bx, si ; bx has the offset of the word in index si (in startIndex) 
+              
+             push ax 
+             push bx 
+             call switchByteSize 
+              
+             ; Switch the lowest word with the word in index si (switch in endIndex) 
+             mov bx, [bp+14] ; offset lowestWordIndex 
+             mov al, [bx] ; lowestWordIndex value 
+             mov bx, [bp+8] ; offset endIndex 
+             add ax, bx ; ax has the offset of the lowest word (in endIndex) 
+              
+             xor bx, bx 
+             mov bx, [bp+8] ; offset endIndex 
+             add bx, si ; bx has the offset of the word in index si (in endIndex) 
+              
+             push ax 
+             push bx 
+             call switchByteSize
+```
 
 ### Runtime Samples
 #### Sample 1
