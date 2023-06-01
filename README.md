@@ -36,7 +36,8 @@ The program consists of X major parts:<br/>
 3. Finding the lowest word alphabetically.<br/>
 4. Switching the indexes of the lowest word, and the indexes of the word in index si(will be discussed later on).<br/>
 5. Printing the alphabetically sorted list.<br/>
-> **Note:** parts 3-4 are not independent parts of the program, but they are significant parts of the Alphabetize proc, which is the main part of the program.
+> **Note:** parts 3-4 are not independent parts of the program, but they are significant parts of [the Alphabetize proc](#alpha), which is the main part of the program.
+<a name="alpha"><a/>
 #### The Alphabetize proc
 hdjd
 jjdjd
