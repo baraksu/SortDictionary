@@ -34,7 +34,7 @@ The program consists of X major parts:<br/>
 1. Taking string input.<br/>
 2. Setting the start & end indexes for each word in the input string.<br/>
 3. Finding the lowest word alphabetically.<br/>
-4. Switching the indexes of the lowest word, with the word in index si(will be discussed later on).<br/>
+4. Switching the indexes of the lowest word, with the indexes of the word in index si(will be discussed later on).<br/>
 5. Printing the alphabetically sorted list.<br/>
 ### Runtime Samples
 #### Sample 1
