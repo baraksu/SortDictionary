@@ -223,8 +223,7 @@ eliminateNonLowestLoop:
         cmp si, ax
         jb eliminateNonLowestLoop
 ```
-<br/>
-> **Note:** the two last pieces of code are a part of the `charLoop` loop.
+**Note:** the two last pieces of code are a part of the `charLoop` loop.
 <br/>
 
 The char loop runs until only one lowest index is left, or until a word has no more letters, but it's last char matches the lowest char value(then it would be considered the lowest word, and its index will be saved, and the proc will exit). In the first case, at the end, only one word-index will be left, which is the the start index of the lowest word alphabetically.
