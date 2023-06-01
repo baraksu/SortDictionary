@@ -125,7 +125,7 @@ First, the main part of the proc is the `alphaLoop` loop. The loop is done using
 
 In each iteration, there are 2 parts:
 1. Find the index(in the index arrays) of the lowest word alphabetically.<br/>
-The following lines of code call a proc that find the index of the lowest word alphabetically and enter it into `lowestWordIndex`.<br/>
+The following lines of code call a proc that finds the index of the lowest word alphabetically and enters it into `lowestWordIndex`.<br/>
 ```assembly
 push [bp+14] ; offset lowestWordIndex 
 push [bp+6] ; offset str 
