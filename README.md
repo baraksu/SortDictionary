@@ -45,10 +45,12 @@ Then the sorted list will be printed onto the console.
 
 ## The production process
 ### Writing the setIndexes proc
-In this step, I wrote a proc that sets the indexes for each word, in the index arrays.<br/>
+In this step, I wrote a proc that sets the indexes for each word, in the index arrays.<br/><br/>
 This is the assembly code for the proc.<br/>
 I'll explain the code in detail in the next few lines.<br>
-
+```assembly
+mov ax, bx
+```
 ### Writing the findLowestWord proc
 Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
 ### Writing the takeStringInput proc
