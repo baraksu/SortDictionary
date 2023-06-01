@@ -1,7 +1,7 @@
 # Alphabetizing Program
 ***
 ## Details about the project
-**Project Name:** Alphabetizing Program<br/>
+**Project Name:** Alphabetizing Program.<br/>
 **Programmar:** Ethan Miller.<br/>
 **Grade:** 10.<br/>
 **Class:** Computer Science. Taught by Barak Suberri.<br/>
@@ -45,7 +45,8 @@ Then the sorted list will be printed onto the console.
 
 ## The production process
 ### Writing the setIndexes proc
-Writing a proc that sets the indexes for each word, in the index arrays.
+In this step, I wrote a proc that sets the indexes for each word, in the index arrays.
+---
 ### Writing the findLowestWord proc
 Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
 ### Writing the takeStringInput proc
