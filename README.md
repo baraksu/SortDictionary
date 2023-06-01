@@ -140,7 +140,7 @@ push [bp+12] ; offset lowestIndex
 call findLowestWord 
 ```
 2. Switch the indexes of the word in index si, and the indexes of the lowest word alphabetically.<br/>
-The following lines of code are written for that:<br/>
+The following lines of code call a proc that switces the value of 2 byte-sized memoryaddresses. <br/>
 ```assembly
 ; Switch the lowest word with the word in index si (switch in startIndex) 
 mov bx, [bp+14] ; offset lowestWordIndex 
