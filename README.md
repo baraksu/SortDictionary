@@ -3,6 +3,7 @@
 ## Table of contents
 - [Details about the project](#details)
 - [What is the purpose of the project?](#purpose)
+- [How does it work?](#how)
 ***
 <a name="details"></a>
 ## Details about the project
@@ -20,6 +21,7 @@ The project was written copletely in assembly language 8086, and consists of one
 The purpose of the program is to take an input string, which consists of words separated by commas,
 process it and return a new alphabeticaly sorted list of words.
 
+<a name="how"></a>
 ## How does it work?
 `add runtime samples, pictures and explanations here`
 ### Runtime Samples
