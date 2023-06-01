@@ -120,6 +120,8 @@ The following code makes up the proc:<br/>
              ;ret x ; check what is x ===================issue!!!!!!===============================  
      endp Alphabetize
 ```
+I'll break up the lines step by step.
+First, the main part of the proc is the `alphaLoop` loop. The loop is done using si as an index.
 ### Runtime Samples
 #### Sample 1
 word index (si)|     init      |   0  |  1  
