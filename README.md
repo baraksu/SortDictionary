@@ -27,7 +27,11 @@ process it and return a new alphabeticaly sorted list of words.
 
 <a name="how"></a>
 ## How does it work?
-`add runtime samples, pictures and explanations here`
+In this segment, we'll discuss how the program works in general.<br/>
+As mentioned before, this project was written completely in assembly language 8086.
+<br/><br/>
+The program consists of X major parts.
+
 ### Runtime Samples
 #### Sample 1
 word index (si)|     init      |   0  |  1  
