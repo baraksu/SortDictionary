@@ -2,7 +2,7 @@
 ***
 ## Table of contents
 - [Details about the project](#details)
-- jdd
+- [What is the purpose of the project?](#purpose)
 ***
 <a name="details"></a>
 ## Details about the project
@@ -14,6 +14,7 @@
 **Year Of Submission:** 2023.<br/>
 **Project Status:** Production/`Completed`/Submitted
 
+<a name="purpose"></a>
 ## What is the purpose of the project?
 The project was written copletely in assembly language 8086, and consists of one .asm file( see [program.asm](https://github.com/baraksu/SortDictionary/blob/main/program.asm)).
 The purpose of the program is to take an input string, which consists of words separated by commas,
