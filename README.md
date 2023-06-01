@@ -4,6 +4,10 @@
 - [Details about the project](#details)
 - [What is the purpose of the project?](#purpose)
 - [How does it work?](#how)
+- [How to use the program?](#use)
+- [The production process](#production)
+- [What's next? Plans ahead](#plans)
+- [Reflection](#reflection)
 ***
 <a name="details"></a>
 ## Details about the project
@@ -41,6 +45,7 @@ startIndex | 0, 5, 11, 17, 22 | 11, 5, 0, 17, 22 | 11, 17, 0, 5, 22
 endIndex | 3, 9, 15, 20, 28 | 15, 9, 3, 20, 28 | 15, 20, 3, 9, 28
 expected output | arch,quite,alien,play,warrior. | alien,quite,arch,play,warrior. | alien,play,arch,quite,warrior.
 
+<a name="use"></a>
 ## How to use the program?
 When running the program, the console will be opened, and a prompt will be shown on the screen.
 Then, the user will be required to enter words, following these instructions:
@@ -51,6 +56,7 @@ Then, the user will be required to enter words, following these instructions:
 After entering the list of words, the program  will sort the words in alphabetical order.
 Then the sorted list will be printed onto the console.
 
+<a name="production"></a>
 ## The production process
 ### Writing the setIndexes proc
 In this step, I wrote a proc that sets the indexes for each word, in the index arrays.<br/><br/>
@@ -70,12 +76,14 @@ Writing a proc that takes two memory addresses and switches the values in these 
 ### Putting all the pieces together
 Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
 
+<a name="plans"></a>
 ## What's next? Plans ahead
 After I completed the project, I noticed that  the program was working properly. Unfortunately though, the time complexity of the program is not great. I believe that there is no actual use to the program, mainly because there are other much faster programs that can be used online, without the need to download the program file.
 <br/><br/>
 Apart from that, I think there are some improvements that are not necessary, but can make the user experience much better.
 The input is the main user-involved component  of the program, and I believe it can be drastically improved. Some of my suggestions are handling spaces in the input string, or creating a gui for the user to input the words in. Overall, I think that the user experience can be improved by following these suggestions.
 
+<a name="reflection"></a>
 ## Reflection
 Looking back, I haven't approached this project properly. I have started working on it barely a week before the submission deadline. Therefore, I had a lot of pressure in completing the project in time. That resulted in some difficulty in several parts in the production.<br/>
 With that said, I completed the project in time, and I did it will in my opinion.
