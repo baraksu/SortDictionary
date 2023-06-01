@@ -1,5 +1,8 @@
 # Alphabetizing Program
 ***
+## Table of contents
+hi
+***
 ## Details about the project
 **Project Name:** Alphabetizing Program.<br/>
 **Programmar:** Ethan Miller.<br/>
