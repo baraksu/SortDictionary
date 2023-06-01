@@ -30,8 +30,12 @@ process it and return a new alphabeticaly sorted list of words.
 In this segment, we'll discuss how the program works in general.<br/>
 As mentioned before, this project was written completely in assembly language 8086.
 <br/><br/>
-The program consists of X major parts.
-
+The program consists of X major parts:<br/>
+1. Taking string input.<br/>
+2. Setting the start & end indexes for each word in the input string.<br/>
+3. Finding the lowest word alphabetically.<br/>
+4. Switching the indexes of the lowest word, with the word in index si(will be discussed later on).<br/>
+5. Printing the alphabetically sorted list.<br/>
 ### Runtime Samples
 #### Sample 1
 word index (si)|     init      |   0  |  1  
