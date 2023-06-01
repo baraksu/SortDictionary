@@ -1,9 +1,10 @@
 # Alphabetizing Program
 ***
 ## Table of contents
-- jdkd
+- [Details about the project](#details)
 - jdd
 ***
+<a name="details"></a>
 ## Details about the project
 **Project Name:** Alphabetizing Program.<br/>
 **Programmar:** Ethan Miller.<br/>
