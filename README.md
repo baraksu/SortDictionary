@@ -64,5 +64,8 @@ Writing a proc that sorts the words alphabetically, using the procs defined in t
 
 ## What's next? Plans ahead
 
-## Reflection
 
+## Reflection
+Looking back, I haven't approached this project properly. I have started working on it barely a week before the submission deadline. Therefore, I had a lot of pressure in completing the project in time. That resulted in some difficulty in several parts in the production.<br/>
+With that said, I completed the project in time, and I did it will in my opinion.
+At the end, I have found the project interesting and I enjoyed the thinking process that was involved in it.
