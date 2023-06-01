@@ -44,9 +44,9 @@ After entering the list of words, the program  will sort the words in alphabetic
 Then the sorted list will be printed onto the console.
 
 ## The production process
-### Writing the setIndexes proc<br/>
+### Writing the setIndexes proc
 In this step, I wrote a proc that sets the indexes for each word, in the index arrays.
----
+----------
 ### Writing the findLowestWord proc
 Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
 ### Writing the takeStringInput proc
