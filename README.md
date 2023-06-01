@@ -66,7 +66,7 @@ Writing a proc that sorts the words alphabetically, using the procs defined in t
 After I completed the project, I noticed that  the program was working properly. Unfortunately though, the time complexity of the program is not great. I believe that there is no actual use to the program, mainly because there are other much faster programs that can be used online, without the need to download the program file.
 <br/><br/>
 Apart from that, I think there are some improvements that are not necessary, but can make the user experience much better.
-The input is the main user-involved component  of the program, and I believe it can be drastically improved. Some of my suggestions are handling spaces in the input string, and creating a gui for the user to input the words in. Overall, I think that the user experience can be improved by these suggestions.
+The input is the main user-involved component  of the program, and I believe it can be drastically improved. Some of my suggestions are handling spaces in the input string, or creating a gui for the user to input the words in. Overall, I think that the user experience can be improved by following these suggestions.
 
 ## Reflection
 Looking back, I haven't approached this project properly. I have started working on it barely a week before the submission deadline. Therefore, I had a lot of pressure in completing the project in time. That resulted in some difficulty in several parts in the production.<br/>
