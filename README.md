@@ -40,7 +40,7 @@ The program consists of 5 major parts:<br/>
 > **Note:** parts 3-4 are not independent parts of the program, but they are significant parts of [the Alphabetize proc](#alpha), which is the main part of the program.
 
 When running the program, a propmt will show on the console, asking the user to enter a list of words into an input field.
-Then, after the list was fully submmited, the program will iterate throught the input string, saving each start & end index for each word in the index arrays.<br/>
+Then, after the list was fully submmited, the program will iterate throught the input string, saving each start & end index for each word in the index arrays(for further information, please check out the [Writing the setIndexes proc](#setIndexes) segment).<br/>
 After setting the indexes, the program will iterate through the first `numOfWords-1` words in the input string, using the `alphaLoop` loop. At first, the `alphaLoop` loop\`s index is initialized with 0.<br/>
 In each iteration, the program will iterate through the words using 2 indexes, `di` and `si`.<br/>
 The register and index `si` is first initialized with the index of the `alphaLoop` loop.
@@ -80,13 +80,13 @@ Then the sorted list will be printed onto the console.
 
 <a name="production"></a>
 ## The production process
+
+<a name="setIndexes"></a>
 ### Writing the setIndexes proc
 In this step, I wrote a proc that sets the indexes for each word, in the index arrays.<br/><br/>
 This is the assembly code for the proc.<br/>
 I'll explain the code in detail in the next few lines.<br>
-```assembly
-mov ax, bx
-```
+
 <a name="findLowestWord"></a>
 ### Writing the findLowestWord proc
 Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
@@ -95,11 +95,84 @@ Writing a proc that finds the index of the lowest word alphabetically, in the in
 Writing a proc that takes string input.
 
 ### Writing the printWords proc
-Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
+In this step, I wrote a proc that prints the words from the input string, according to the order of the indexes in the index arrays.<br/>
+The code for the proc is fairly simple. There are two loops. One that iterates through the startIndex array, 
+and another one that iterates through the chars of each word for each start index.
+The following code is the main part of the proc:<br/>
+```assembly
+; this loop iterates through each word in the string
+printWordsLoop:
+    ; Store the start char offset in si
+    mov bx, [bp+10] ; startIndex offset
+    add bx, di ; bx has the offset of the word in startIndex
+
+    xor ax, ax  
+    xor si, si
+    mov al, byte ptr [bx]
+    mov si, ax ; si has the start index
+
+    ; Store the end char offset in cx
+    mov bx, [bp+8] ; endIndex offset
+    add bx, di ; bx has the offset of the word in endIndex
+
+    xor cx, cx
+    mov cl, byte ptr [bx] ; cx has the end index
+
+    ; this loop prints each char in the current word
+    printCharsLoop:
+        mov bx, [bp+6]
+        add bx, si
+
+        mov ah, 02h
+        mov dl, [bx]
+        int 21h 
+
+
+        inc si
+        cmp si, cx
+        jbe printCharsLoop    
+
+    printWordsLoopContinue:
+        inc di
+        mov dx, [bp+4]
+        cmp di, [bp+4]
+        jae exitProcPrintWords
+
+        ; print a comma to separate the words
+        mov ah, 02h
+        mov dl, commaAscii
+        int 21h 
+        jmp printWordsLoop
+
+
+exitProcPrintWords:
+    ; print a dot
+    mov ah, 02h
+    mov dl, dotAscii
+    int 21h        
+```
+As explained before, there are two loops in this proc, one that iterates on the words - `printWordsLoop`, and another one that iterates on the chars of each word - `printCharsLoop`.
 
 <a name="switch"></a>
 ### Writing the switchByteSize proc
-Writing a proc that takes two memory addresses and switches the values in these addresses between each other.
+In this step, I wrote a proc that takes two byte-sized memory addresses and switches the values in these addresses between each other.
+I have done that by storing each address' value in a register, using bx to access these value.
+Then, using bx again, the program stores each value in the other address.<br/>
+The following code is the main part of the proc:<br/>
+```assembly
+mov bx, [bp+6] ; offset of var1
+mov al, [bx] ; value of var1
+
+xor bx, bx
+mov bx, [bp+4] ; offset of var2
+mov dl, [bx] ; value of var2
+
+; Switch the values
+mov [bx], al
+mov bx, [bp+6]
+mov [bx], dl
+```
+As you can tell, al and dl hold the values of the two addresses, than bx is used to switch their 'places'.
 
 ### Putting all the pieces together
 Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
