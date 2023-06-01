@@ -43,10 +43,66 @@ When running the program, a propmt will show on the console, asking the user to 
 Then, after the list was fully submmited, the sorting process begins.<br/>
 The program will iterate through the first `numOfWords-1` words in the input string, using the `alphaLoop` loop. At first, the `alphaLoop` loop\`s index is initialized with 0.<br/>
 In each iteration, the program will start iterating through the words using 2 indexes, `di` and `si`.<br/>
+The register and index `si` is first initialized with the index of the `alphaLoop` loop.
 The register `di` will serve as an index for the char the program is currently reviewing in each word. The register `si` on the other hand, will serve as an index for the word the program is currently reviewing it's `di`-indexed char. Using these indexes, the program is iterating through the words, and comparing the chars to insure the index of the word put in `lowestWordIndex`, is truly the index of the lowest word alphabetically(for further information, please check out the [Writing the findLowestWord proc](#findLowestWord) segment).<br/>
 After finding the index of the lowest word alphabetically, the program will than switch the indeexes of the word in index `lowestWordIndex`, and the indexes of the word in the index of the `alphaLoop` loop.<br/>
-Then, when the indexes are finally switched, the program will then complete its iteration, increase `alphaLoop`\`s index, and move on to the next iteration.
+Then, when the indexes are finally switched, the program will then complete its iteration, increase `alphaLoop`\`s index by 1, and move on to the next iteration.
+It should be noted that now that the index is increased, the program will now find the index of the lowest word from the `alphaLoop`\`s index on, meaning the previously switched indexes will remain untouched. Because of that, in every iteration of `alphaLoop`, the indexes of lowest word from it's index on, will be placed at the lowest index avaliable, after placing the indexes of lower words aheah of that one. Then, after `numOfWords-1` iterations, the indexes will be finally sorted alphabetically.
+At the end, a proc is used to print the words of the input string in the order of the indexes in the index arrays, meaning that the new alphabetically sorted list of words will be printed onto the console.
 
+### Runtime Samples
+#### Sample 1
+word index (si)|     init      |   0  |  1  
+ ------------- | ------------- | ---- | -----
+inputString | bike,call,aisle. | bike,call,aisle. | bike,call,aisle.
+startIndex | 0, 5, 10 | 10, 5, 0 | 10, 0, 5
+endIndex | 3, 8, 14 | 14, 8, 3 | 14, 3, 8
+expected output | bike,call,aisle. | aisle,call,bike. | aisle,bike,call.
+
+#### Sample 2
+word index (si)|     init      |   0  |  1  
+ ------------- | ------------- | ---- | -----
+inputString | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior.
+startIndex | 0, 5, 11, 17, 22 | 11, 5, 0, 17, 22 | 11, 17, 0, 5, 22
+endIndex | 3, 9, 15, 20, 28 | 15, 9, 3, 20, 28 | 15, 20, 3, 9, 28
+expected output | arch,quite,alien,play,warrior. | alien,quite,arch,play,warrior. | alien,play,arch,quite,warrior.
+
+<a name="use"></a>
+## How to use the program?
+When running the program, the console will be opened, and a prompt will be shown on the screen.
+Then, the user will be required to enter words, following these instructions:
+1. The words are separated by commas.<br/>
+2. There are no spaces between words and commas.<br/>
+3. The list ends with a dot. Then the program will continue.<br/>
+
+After entering the list of words, the program  will sort the words in alphabetical order.
+Then the sorted list will be printed onto the console.
+
+<a name="production"></a>
+## The production process
+### Writing the setIndexes proc
+In this step, I wrote a proc that sets the indexes for each word, in the index arrays.<br/><br/>
+This is the assembly code for the proc.<br/>
+I'll explain the code in detail in the next few lines.<br>
+```assembly
+mov ax, bx
+```
+<a name="findLowestWord"></a>
+### Writing the findLowestWord proc
+Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
+
+### Writing the takeStringInput proc
+Writing a proc that takes string input.
+
+### Writing the printWords proc
+Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
+
+<a name="switch"></a>
+### Writing the switchByteSize proc
+Writing a proc that takes two memory addresses and switches the values in these addresses between each other.
+
+### Putting all the pieces together
+Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
 <a name="alpha"><a/>
 #### The Alphabetize proc
 The Alphabetize proc is the most significant component of the program. It combines all the other procedures defined before to one proc, that sorts the words alphabetically.<br/>
@@ -180,60 +236,7 @@ push ax
 push bx 
 call switchByteSize
 ```
-
-### Runtime Samples
-#### Sample 1
-word index (si)|     init      |   0  |  1  
- ------------- | ------------- | ---- | -----
-inputString | bike,call,aisle. | bike,call,aisle. | bike,call,aisle.
-startIndex | 0, 5, 10 | 10, 5, 0 | 10, 0, 5
-endIndex | 3, 8, 14 | 14, 8, 3 | 14, 3, 8
-expected output | bike,call,aisle. | aisle,call,bike. | aisle,bike,call.
-
-#### Sample 2
-word index (si)|     init      |   0  |  1  
- ------------- | ------------- | ---- | -----
-inputString | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior. | arch,quite,alien,play,warrior.
-startIndex | 0, 5, 11, 17, 22 | 11, 5, 0, 17, 22 | 11, 17, 0, 5, 22
-endIndex | 3, 9, 15, 20, 28 | 15, 9, 3, 20, 28 | 15, 20, 3, 9, 28
-expected output | arch,quite,alien,play,warrior. | alien,quite,arch,play,warrior. | alien,play,arch,quite,warrior.
-
-<a name="use"></a>
-## How to use the program?
-When running the program, the console will be opened, and a prompt will be shown on the screen.
-Then, the user will be required to enter words, following these instructions:
-1. The words are separated by commas.<br/>
-2. There are no spaces between words and commas.<br/>
-3. The list ends with a dot. Then the program will continue.<br/>
-
-After entering the list of words, the program  will sort the words in alphabetical order.
-Then the sorted list will be printed onto the console.
-
-<a name="production"></a>
-## The production process
-### Writing the setIndexes proc
-In this step, I wrote a proc that sets the indexes for each word, in the index arrays.<br/><br/>
-This is the assembly code for the proc.<br/>
-I'll explain the code in detail in the next few lines.<br>
-```assembly
-mov ax, bx
-```
-<a name="findLowestWord"></a>
-### Writing the findLowestWord proc
-Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
-
-### Writing the takeStringInput proc
-Writing a proc that takes string input.
-
-### Writing the printWords proc
-Writing a proc that prints the words from the input string, according to the order of the indexes in the index arrays.
-
-<a name="switch"></a>
-### Writing the switchByteSize proc
-Writing a proc that takes two memory addresses and switches the values in these addresses between each other.
-
-### Putting all the pieces together
-Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
+     
 
 <a name="plans"></a>
 ## What's next? Plans ahead
