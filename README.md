@@ -89,7 +89,146 @@ I'll explain the code in detail in the next few lines.<br>
 
 <a name="findLowestWord"></a>
 ### Writing the findLowestWord proc
-Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
+In this step, I wrote a proc that finds the index of the lowest word alphabetically, in the index arrays.<br/>
+This proc is complicated, so hold on tight, and I'll do my best to explain everything clearly.<br/>
+At the start of the proc, the program makes a copy of the values in the startIndex array, in the lowestIndex array, using the following code:
+```assembly
+xor si, si
+mov si, [bp+10] ; initial si 
+copyToLowestLoop:
+    mov bx, [bp+8] ; offset startIndex
+    mov al, [bx+si] ; start of si-word (value)
+
+    xor bx, bx    
+    mov bx, [bp+4] ; offset lowestIndex
+    mov [bx+si], al ; set the si index in lowestWord to al
+
+    inc si
+    mov dl, byte ptr [bp+12]
+    cmp si, dx ; cmp si to the number of words
+    jb copyToLowestLoop
+```
+This code helps the program iterate through updated indexes, given to the startIndex array in [the Alphabetize proc](#alpha).<br/><br/>
+
+Moving on, the program uses two loops to find the lowest char value possible in index `di`, which is the index that helps access individual chars in each word.
+The first loop is `charLoop`. This loop, uses di to iterate through individual chars in each word. It does that using the second loop - `findLowestLoop`.<br/>
+The `findLowestLoop` loop iterates through the indexes of each word in the index arrays, using `si` as an index.<br/>
+These two indexes are used to access individual chars in each word, in aim to find the lowest char value in index di in the words.<br/>
+The following code does this process:<br/>
+```assembly
+mov dl, 'z'
+xor si, si
+mov si, [bp+10]
+xor cx, cx
+mov cl, byte ptr [bp+12] ; numOfWords value
+; This loop iterates over each word, and operates on the char in place di+1  
+findLowestLoop:
+    ; get the offset of the word in lowestIndex, ->
+    ; and add si so bx has the offset of the currnet word in lowestIndex.
+    mov bx, [bp+4]
+    add bx, si
+
+    ; Check if the current index in lowestIndex has the elimination char. ->
+    ; If so, then continue to the next operation.
+    cmp [bx], elimCharAscii
+    je findLowestLoop_continue
+
+    ; Store the start index of the current word in al ->
+    ; and add di to ax, so al has the index of the di char, in the string.
+    mov al, [bx]
+    add ax, di
+
+    ; Store the offset of endIndex in bx, and add si, ->
+    ; so bx has the offset of the current word in endIndex.
+    xor bx, bx
+    mov bx, [bp+6]
+    add bx, si
+    ; Check if al(the index of the word + di) is bigger than the end index of the word. ->
+    ; If so, than the word is the shortest and is equal in it's alphabetical order, meaning its the lowest word. ->
+    ; Therefore, set the index of this word in startIndex as the lowest, then exit the proc.
+    cmp al, [bx]
+    ja exitWithLowest
+
+    ; These lines store the offset of the di char in bx
+    xor bx, bx
+    mov bx, [bp+14]
+    add bx, ax
+
+    ; Compare the char in index di, with the lowest char in index di(dl)
+    ;mov bx, [bx]
+    cmp byte ptr [bx], dl
+    jb foundLower
+    jmp findLowestLoop_continue
+
+    ; Set a new lowest char in dl
+    foundLower:
+        mov dl, [bx]      
+
+    findLowestLoop_continue:
+        inc si
+        cmp si, cx ; numOfWords
+        jb findLowestLoop
+```
+<br/>
+After finding the lowest char value in char-index `di`, the program eliminates all the other indexes in the lowestIndex array, that doesn't have this char value in their `di` index. It does that by placing a special char in the indexes of these words in lowestIndex.<br/>
+In addition, the program sets the `lowestWordIndex` to the index of each word that it's `di` index is the lowest char value.<br/>
+The following code, achives that task:<br/> 
+```assembly
+xor si, si
+mov si, [bp+10]
+xor cx, cx
+mov cl, byte ptr [bp+12] ; numOfWords value
+eliminateNonLowestLoop:
+    ; get the offset of the word in startIndex
+    mov bx, [bp+4]
+    add bx, si
+
+    ; store the index in ax and add di
+    mov al, [bx]
+    add ax, di
+
+    xor bx, bx
+    mov bx, [bp+14]
+    add bx, ax
+
+    ; compare the di char with the lowest char(di)
+    cmp byte ptr [bx], dl
+    jne markNonLowest
+    jmp setLowest
+
+    ; Mark words, that their di char is not the lowestChar as eliminated using the special char(127d)
+    markNonLowest:
+        mov bx, [bp+4]
+        add bx, si
+        mov [bx], elimCharAscii
+
+        dec cl ; dec the number of words left
+        jmp eliminateContinue  
+
+    ; save the index(in startIndex) of the lowest word lowestWordIndex
+    setLowest:
+        xor ax, ax
+        mov ax, si
+        mov bx, [bp+16]
+        mov [bx], al
+
+    eliminateContinue:
+        cmp cx, 0 ; because we dec before cmp
+        ;cmp cl, 1 ; check if the we have only the lowest word left
+        je exitProcFindLowest
+
+        inc si
+        xor ax, ax
+        mov al, byte ptr [bp+12]
+        cmp si, ax
+        jb eliminateNonLowestLoop
+```
+<br/>
+> **Note:** the two last pieces of code are a part of the `charLoop` loop.
+<br/>
+
+The char loop runs until only one lowest index is left, or until a word has no more letters, but it's last char matches the lowest char value(then it would be considered the lowest word, and its index will be saved, and the proc will exit). In the first case, at the end, only one word-index will be left, which is the the start index of the lowest word alphabetically.
+Therefore, this words' index is saved into `lowestWordIndex` and the proc exits.
 
 ### Writing the takeStringInput proc
 In this step, I wrote a proc that takes string input from the user.
