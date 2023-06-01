@@ -92,7 +92,32 @@ I'll explain the code in detail in the next few lines.<br>
 Writing a proc that finds the index of the lowest word alphabetically, in the index arrays.
 
 ### Writing the takeStringInput proc
-Writing a proc that takes string input.
+In this step, I wrote a proc that takes string input from the user.
+The proc works this way:<br/>
+First, when calling the proc, an offset of an array(a buffer for a string) is passed as a pramater on the stack.
+Then, the program takes this offset, and uses it as a way to access each individual address in the array, by increasing the offset by 1 in every iteration of a loop, that takes a char input and stores it in the current offset. Additionally, in every iteration of the loop, the program will check if the dot symbol(that represents the end of the input string) occurs or if the string is full, meaning the loop has reached the max length of the string. If any of those happen to be true, then the loop exits, and the proc is finished.
+The following code is the main part of the proc:
+```assembly
+mov bx, [bp+4]
+mov ah, 01h
+mov cl, 1
+charInputLoop:
+    int 21h
+
+    cmp al, dotAscii
+    je exitWithEndString
+
+    mov [bx], al
+    inc bx
+
+    inc cl
+    cmp cl, strMaxLen
+    jna charInputLoop
+    jmp exitProcTakeInput      
+
+exitWithEndString:
+     mov [bx], al
+```
 
 ### Writing the printWords proc
 In this step, I wrote a proc that prints the words from the input string, according to the order of the indexes in the index arrays.<br/>
@@ -172,7 +197,7 @@ mov [bx], al
 mov bx, [bp+6]
 mov [bx], dl
 ```
-As you can tell, al and dl hold the values of the two addresses, than bx is used to switch their 'places'.
+As you can tell, the `al` and `dl` registers hold the values of the two addresses, than `bx` is used to switch their 'places'.
 
 ### Putting all the pieces together
 Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
