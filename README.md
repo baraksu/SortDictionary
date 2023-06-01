@@ -223,6 +223,7 @@ eliminateNonLowestLoop:
         cmp si, ax
         jb eliminateNonLowestLoop
 ```
+<br/>
 **Note:** the two last pieces of code are a part of the `charLoop` loop.
 <br/>
 
