@@ -1,31 +1,37 @@
 .MODEL small
 .DATA
     ; define the index arrays
-    startIndex db 20 dup(?)
-    endIndex db 20 dup(?)
-    lowestIndex db 20 dup(?)
+    startIndex db 20 dup(?) ; the array that's used to store the start index of each word in the input string
+    endIndex db 20 dup(?) ; the array that's used to store the end index of each word in the input string
+    lowestIndex db 20 dup(?) ; the array that's used to eliminate the indexes in the findLowestWord proc, until the lowest word is found.
     
     ;define the lowest index var
-    lowestWordIndex db ?
+    lowestWordIndex db ? ; here the lowest word's index in the index arrays is stored after the findLowestWord runs.
     
     ; define the string
-    strMaxLen equ 151
-    numOfWords db 1
-    str db strMaxLen dup(0)
+    strMaxLen equ 151 ; The max length of the input string.
+    numOfWords db 1 ; The number of words is saved here in setIndexes
+    str db strMaxLen dup(0) ; the definition of the string
     
     ; special ascii chars
-    commaAscii equ ','
-    dotAscii equ '.'
-    elimCharAscii equ 127d
+    commaAscii equ ',' ; a char that's used to indicate the end of a word in the input string.
+    dotAscii equ '.' ; a char that's used to indicate the end of the input string.
+    elimCharAscii equ 127d ; a number thats used to indicate that a word is not the lowest word in findLowestWord
     
     ; different string outputs
-    inputPrompt1 db "Enter a list of up to 20 words, and up to 150 chars.", '$'
-    inputPrompt2 db 13, 10, "Separate words with commas, without spaces. End the list with a dot.", 13, 10, '$'
-    finalMsg db 13,10,"The words in alphabetical order: ",13,10,'$'
-    crlf db 13, 10, '$'
+    inputPrompt1 db "Enter a list of up to 20 words, and up to 150 chars.", '$' ; prompt string n1
+    inputPrompt2 db 13, 10, "Separate words with commas, without spaces. End the list with a dot.", 13, 10, '$' ; prompt string n2
+    finalMsg db 13,10,"The words in alphabetical order: ",13,10,'$' ; A string that's displayed before the final output
+    crlf db 13, 10, '$' ; new line
     
 .CODE
     proc takeStringInput
+        ; CALL this function in order: offset str. 
+        
+        ; This function take string input from the user, char by char, - >
+        ; until a dot is entered, or the maximum string length was reached.
+        ; The function 'returns' an input string. 
+        
         ; this folowing code helps us accsses values that were put in the stack ->
         ; using the relative address to bp.
         push bp
@@ -34,7 +40,7 @@
         push ax
         push dx
         push bx
-        ;
+        
         mov bx, [bp+4]
         mov ah, 01h
         mov cl, 1
@@ -55,10 +61,6 @@
         exitWithEndString:
             mov [bx], al
 
-;        mov ah, 0Ah
-;        mov dx, [bp+4]
-;        int 21h
-        
         ; exit the proc
         exitProcTakeInput:
             pop bx     
@@ -71,6 +73,12 @@
 
     proc setIndexes
         ; CALL this function in order: offset numOfWords, offset startIndex, offset endIndex, offset string
+        
+        ; This function iterates through the chars in a string and ->
+        ; sets the start & end index for each word in it, in the index arraays. ->
+        ; It also counts the number of words and stores it in the numOfWords variable.
+        ; The function 'returns' 2 arrays that store the start and end index of each word in a string. ->
+        ;  It also returns the number of words in numOfWords.
         
         ; this folowing code helps us accsses values that were put in the stack ->
         ; using the relative address to bp.
@@ -159,6 +167,10 @@
         ; offset lowestWordIndex, offset testStr, numOfWords, intial si value for findLowestLoop, ->
         ; offset startIndex, offset endIndex, offset lowestIndex
         
+        ; This function takes the index arrays as parameters and finds ->
+        ; the lowest word alphabetically from the index it's given as a parameter.
+        ; The function 'returns' thelowestWordIndex variable with the index if the lowest word alphabetically.
+        
         ; this folowing code helps us accsses values that were put in the stack ->
         ; using the relative address to bp.
         push bp
@@ -239,8 +251,9 @@
                 add bx, ax
                 
                 ; Compare the char in index di, with the lowest char in index di(dl)
-                cmp [bx], dl
-                jl foundLower
+                ;mov bx, [bx]
+                cmp byte ptr [bx], dl
+                jb foundLower
                 jmp findLowestLoop_continue
                 
                 ; Set a new lowest char in dl
@@ -270,7 +283,7 @@
                 add bx, ax
                 
                 ; compare the di char with the lowest char(di)
-                cmp [bx], dl
+                cmp byte ptr [bx], dl
                 jne markNonLowest
                 jmp setLowest
                 
@@ -291,8 +304,8 @@
                     mov [bx], al
                     
                 eliminateContinue:
-                    ;cmp cx, 0 ; because we dec before cmp
-                    cmp cl, 1 ; check if the we have only the lowest word left
+                    cmp cx, 0 ; because we dec before cmp
+                    ;cmp cl, 1 ; check if the we have only the lowest word left
                     je exitProcFindLowest
                               
                     inc si
@@ -330,6 +343,9 @@
     
     proc switchByteSize
         ; CALL this function in order: offset var1, offset var2
+        
+        ; This function takes 2 offsets and switches the values between those.
+        ; The function returns the 2 offsets with their switched values. 
         
         push bp
         mov bp, sp
@@ -370,6 +386,9 @@
         ; CALL this function in order: ->
         ; poffset lowestWordIndex, offset lowestIndex, offset startIndex, ->
         ; offset endIndex, offset testStr, offset numOfWords
+        
+        ; This is the sorting function. It uses the other functions in order to sort the word list alphabetically.
+        ; The function returns the index arrays in the order of sorted list of words.
         
         push bp
         mov bp, sp
@@ -447,6 +466,9 @@
     proc printWords
         ; CALL this function in order: ->
         ; offset startIndex, offset endIndex, offset string, value numOfWords
+        
+        ; This function prints the words as a list, in the order their index occur in the index arrays.
+        ; The function doesn't return a value, but prints the output to the console.
         
         push bp
         mov bp, sp
