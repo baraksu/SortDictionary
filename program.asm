@@ -18,11 +18,25 @@
     dotAscii equ '.' ; a char that's used to indicate the end of the input string.
     elimCharAscii equ 127d ; a number thats used to indicate that a word is not the lowest word in findLowestWord
     
+    ;### Written during the test
+    backspaceAscii equ 08d
+    
+    ;####
+    
     ; different string outputs
     inputPrompt1 db "Enter a list of up to 20 lowercase words, and up to 150 chars.", '$' ; prompt string n1
     inputPrompt2 db 13, 10, "Separate words with commas, without spaces. End the list with a dot.", 13, 10, '$' ; prompt string n2
     finalMsg db 13,10,"The words in alphabetical order: ",13,10,'$' ; A string that's displayed before the final output
     crlf db 13, 10, '$' ; new line
+    
+    ;####
+    welcomeMsg db "  ______                   _     ______     _          _    _                                          ", 13, 10
+               db ".' ____ \                 / |_  |_   _ `.  (_)        / |_ (_)                                         ", 13, 10
+               db "| (___ \_|  .--.   _ .--.`| |-'   | | `. \ __   .---.`| |-'__   .--.   _ .--.   ,--.   _ .--.  _   __  ", 13, 10
+               db " _.____`. / .'`\ \[ `/'`\]| |     | |  | |[  | / /'`\]| | [  |/ .'`\ \[ `.-. | `'_\ : [ `/'`\][ \ [  ] ", 13, 10
+               db "| \____) || \__. | | |    | |,   _| |_.' / | | | \__. | |, | || \__. | | | | | // | |, | |     \ '/ /  ", 13, 10
+               db " \______.' '.__.' [___]   \__/  |______.' [___]'.___.'\__/[___]'.__.' [___||__]\'-;__/[___]  [\_:  /   ", 13, 10
+               db "                                                                                              \__.'    ", 13, 10, '$'
     
 .CODE
     proc takeStringInput
@@ -47,16 +61,31 @@
         charInputLoop:
             int 21h
             
+            cmp al, backspaceAscii
+            je deleteOne
+            
             cmp al, dotAscii
             je exitWithEndString
+            jmp charInputLoop_continue
             
-            mov [bx], al
-            inc bx
+            deleteOne:
+                dec bx
+                mov al, 0
+                jmp assignLast    
             
-            inc cl
-            cmp cl, strMaxLen
-            jna charInputLoop
-            jmp exitProcTakeInput      
+            charInputLoop_continue:
+                mov [bx], al
+                inc bx
+                jmp next
+                
+                assignLast:
+                    mov [bx], al
+                
+                next:
+                inc cl
+                cmp cl, strMaxLen   
+                jna charInputLoop
+                jmp exitProcTakeInput      
         
         exitWithEndString:
             mov [bx], al
@@ -537,6 +566,11 @@
         ; initialize
         mov ax, @data
         mov ds, ax  ;point ds to data segment
+        
+        ; Display welcome message
+        lea dx, welcomeMsg
+        mov ah, 09h
+        int 21h
         
         ; Take string input
         lea dx, inputPrompt1
