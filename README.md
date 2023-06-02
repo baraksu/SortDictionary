@@ -343,7 +343,7 @@ mov [bx], dl
 As you can tell, the `al` and `dl` registers hold the values of the two addresses, than `bx` is used to switch their 'places'.
 
 ### Putting all the pieces together
-Writing a proc that sorts the words alphabetically, using the procs defined in the previous steps.
+In this step, I wrote a proc that sorts the words alphabetically, using the procs defined in the previous steps.
 <a name="alpha"><a/>
 #### The Alphabetize proc
 The Alphabetize proc is the most significant component of the program. It combines all the other procedures defined before to one proc, that sorts the words alphabetically.<br/>
@@ -427,8 +427,8 @@ proc Alphabetize
          ;ret x ; check what is x ===================issue!!!!!!===============================  
  endp Alphabetize
 ```
-I'll break up the lines step by step.<br/>
-First, the main part of the proc is the `alphaLoop` loop. The loop is done using `si` as an index, while iterating through the first `numOfWords-1` words.<br/><br/>
+I'll break up the lines line by line.<br/>
+First, the main component of the proc is the `alphaLoop` loop. The loop is done using `si` as an index, while iterating through the first `numOfWords-1` words.<br/><br/>
 
 In each iteration, there are 2 parts:
 1. Find the index(in the index arrays) of the lowest word alphabetically.<br/>
