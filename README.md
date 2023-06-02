@@ -18,7 +18,7 @@
 **Class:** Computer Science. Taught by Barak Suberri.<br/>
 **School:** Yeshivat Bnei Aquiva Givat Shmuel.<br/>
 **Year Of Submission:** 2023.<br/>
-**Project Status:** Production/`Completed`/Submitted
+**Project Status:** Production/Completed/`Submitted`
 
 <a name="purpose"></a>
 ## What is the purpose of the project?
