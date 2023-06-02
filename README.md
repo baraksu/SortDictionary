@@ -88,8 +88,45 @@ In this segment, we'll discuss the steps I have taken during the production proc
 <a name="setIndexes"></a>
 ### Writing the setIndexes proc
 In this step, I wrote a proc that sets the indexes for each word, in the index arrays.<br/><br/>
-This is the assembly code for the proc.<br/>
-I'll explain the code in detail in the next few lines.<br>
+The proc consists of one loop, named `setIndexesLoop`. This loop iterates through the input string's chars and compars them to the ascii of a the comma(`,`) symbol. It does so by using the `si` register as an index.<br/>
+```assembly
+; check whether a comma was found
+mov al, commaAscii
+mov bx, [bp+4] ; mov the offset of the string into bx
+cmp [bx+si], al
+jne SetIndexes_continue
+```
+If a comma is found, then a new word must be entered after it. Therfore the start index of the next word is `si+1`.<br/>
+```assembly
+setStart:
+    ;set a new start
+    mov dx, si
+    inc dx ; dl is the actual index
+    mov bx, [bp+8] ; mov the offset of startIndex into bx
+    mov [bx+di+1], dl
+```
+If a comma was found, then the previous word ended. Therefore the end index of the previous word is `si-1`.
+```assembly
+setEnd:
+    ; set a new end
+    mov dx, si
+    dec dx ; dl is the actual index
+    mov bx, [bp+6] ; mov the offset of endIndex into bx
+    mov [bx+di], dl
+```
+As exampled in the previous blocks of code, the program then stores these values in the index arrays.<br/><br/>
+While iterating, the loop will also search for the dot(`.`) symbol. If one is found, than the list was fully entered, the loop teriminates and the proc exits.<br/>
+```assembly
+SetIndexes_continue:
+    ; check whether the dot was found. if it was, then exit the loop
+    mov al, dotAscii
+    mov bx, [bp+4] ; mov the offset of the string into bx
+    cmp [bx+si], al
+    je exitLoop
+    jne nextIter
+```
+<br/><br/>
+The `setIndexes` has an improtant role in the program. Using it, the program can map the input string, and 'know' where every word starts and ends.
 
 <a name="findLowestWord"></a>
 ### Writing the findLowestWord proc
@@ -176,8 +213,8 @@ findLowestLoop:
 <br/>
 After finding the lowest char value in char-index `di`, the program eliminates all the other indexes in the lowestIndex array, that doesn't have this char value in their `di` index. It does that by placing a special char in the indexes of these words in lowestIndex.<br/>
 In addition, the program sets the `lowestWordIndex` to the index of each word that it's `di` index is the lowest char value.<br/>
-The following code, achives that task:<br/> 
-```assembly
+The following code, achives that task:
+``` assembly
 xor si, si
 mov si, [bp+10]
 xor cx, cx
@@ -227,9 +264,6 @@ eliminateNonLowestLoop:
         cmp si, ax
         jb eliminateNonLowestLoop
 ```
-<br/>
-**Note:** the two last pieces of code are a part of the `charLoop` loop.
-<br/>
 
 The char loop runs until only one lowest index is left, or until a word has no more letters, but it's last char matches the lowest char value(then it would be considered the lowest word, and its index will be saved, and the proc will exit). In the first case, at the end, only one word-index will be left, which is the the start index of the lowest word alphabetically.
 Therefore, this words' index is saved into `lowestWordIndex` and the proc exits.
