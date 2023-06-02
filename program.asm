@@ -19,7 +19,7 @@
     elimCharAscii equ 127d ; a number thats used to indicate that a word is not the lowest word in findLowestWord
     
     ; different string outputs
-    inputPrompt1 db "Enter a list of up to 20 words, and up to 150 chars.", '$' ; prompt string n1
+    inputPrompt1 db "Enter a list of up to 20 lowercase words, and up to 150 chars.", '$' ; prompt string n1
     inputPrompt2 db 13, 10, "Separate words with commas, without spaces. End the list with a dot.", 13, 10, '$' ; prompt string n2
     finalMsg db 13,10,"The words in alphabetical order: ",13,10,'$' ; A string that's displayed before the final output
     crlf db 13, 10, '$' ; new line
