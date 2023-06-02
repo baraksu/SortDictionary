@@ -62,17 +62,23 @@ expected output | slime,string,worth,pity,twilight. | pity,string,worth,slime,tw
 >**Note:** notice that in each iteration, the `si` index is only switched with indexes from the `si` index on, and the previous indexes remain untouched.
 
 #### Other Image Samples
+![inputSample](https://github.com/baraksu/SortDictionary/blob/main/assets/outputSample.png)
+![inputSample](https://github.com/baraksu/SortDictionary/blob/main/assets/outputSample2.png)
 
 <a name="use"></a>
 ## How to use the program?
 When running the program, the console will be opened, and a prompt will be shown on the screen.
+![inputSample](https://github.com/baraksu/SortDictionary/blob/main/assets/inputSample.png)
+
 Then, the user will be required to enter words, following these instructions:
 1. The words are separated by commas.<br/>
 2. There are no spaces between words and commas.<br/>
-3. The list ends with a dot. Then the program will continue.<br/>
+3. The list ends with a dot. Then the program will continue.
+<br/>![inputEnteredSample](https://github.com/baraksu/SortDictionary/blob/main/assets/inputEnteredSample.png)
 
 After entering the list of words, the program  will sort the words in alphabetical order.
 Then the sorted list will be printed onto the console.
+![outputSample](https://github.com/baraksu/SortDictionary/blob/main/assets/outputSample.png)
 
 <a name="production"></a>
 ## The production process
