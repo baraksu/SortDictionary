@@ -460,7 +460,7 @@
             pop bp
             
             jmp testPrintW
-            ;ret x ; check what is x ===================issue!!!!!!=============================== 
+            ;ret x 
     endp Alphabetize
     
     proc printWords
