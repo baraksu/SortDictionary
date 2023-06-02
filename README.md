@@ -80,6 +80,8 @@ Then the sorted list will be printed onto the console.
 
 <a name="production"></a>
 ## The production process
+In this segment, we'll discuss the steps I have taken during the production procces, and how everything works in detail.
+>**Note:** This is not a complete review of the code. This only a review for several main ideas as part of the production.
 
 <a name="setIndexes"></a>
 ### Writing the setIndexes proc
