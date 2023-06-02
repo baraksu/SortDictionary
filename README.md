@@ -213,56 +213,40 @@ findLowestLoop:
 <br/>
 After finding the lowest char value in char-index `di`, the program eliminates all the other indexes in the lowestIndex array, that doesn't have this char value in their `di` index. It does that by placing a special char in the indexes of these words in lowestIndex.<br/>
 In addition, the program sets the `lowestWordIndex` to the index of each word that it's `di` index is the lowest char value.<br/>
-The following code, achives that task:
-``` assembly
-xor si, si
-mov si, [bp+10]
-xor cx, cx
-mov cl, byte ptr [bp+12] ; numOfWords value
-eliminateNonLowestLoop:
-    ; get the offset of the word in startIndex
+The following code, achives that task:<br/>
+```assembly
+; get the offset of the word in startIndex
+mov bx, [bp+4]
+add bx, si
+
+; store the index in ax and add di
+mov al, [bx]
+add ax, di
+
+xor bx, bx
+mov bx, [bp+14]
+add bx, ax
+
+; compare the di char with the lowest char(di)
+cmp byte ptr [bx], dl
+jne markNonLowest
+jmp setLowest
+
+; Mark words, that their di char is not the lowestChar as eliminated using the special char(127d)
+markNonLowest:
     mov bx, [bp+4]
     add bx, si
+    mov [bx], elimCharAscii
 
-    ; store the index in ax and add di
-    mov al, [bx]
-    add ax, di
+    dec cl ; dec the number of words left
+    jmp eliminateContinue  
 
-    xor bx, bx
-    mov bx, [bp+14]
-    add bx, ax
-
-    ; compare the di char with the lowest char(di)
-    cmp byte ptr [bx], dl
-    jne markNonLowest
-    jmp setLowest
-
-    ; Mark words, that their di char is not the lowestChar as eliminated using the special char(127d)
-    markNonLowest:
-        mov bx, [bp+4]
-        add bx, si
-        mov [bx], elimCharAscii
-
-        dec cl ; dec the number of words left
-        jmp eliminateContinue  
-
-    ; save the index(in startIndex) of the lowest word lowestWordIndex
-    setLowest:
-        xor ax, ax
-        mov ax, si
-        mov bx, [bp+16]
-        mov [bx], al
-
-    eliminateContinue:
-        cmp cx, 0 ; because we dec before cmp
-        ;cmp cl, 1 ; check if the we have only the lowest word left
-        je exitProcFindLowest
-
-        inc si
-        xor ax, ax
-        mov al, byte ptr [bp+12]
-        cmp si, ax
-        jb eliminateNonLowestLoop
+; save the index(in startIndex) of the lowest word lowestWordIndex
+setLowest:
+    xor ax, ax
+    mov ax, si
+    mov bx, [bp+16]
+    mov [bx], al
 ```
 
 The char loop runs until only one lowest index is left, or until a word has no more letters, but it's last char matches the lowest char value(then it would be considered the lowest word, and its index will be saved, and the proc will exit). In the first case, at the end, only one word-index will be left, which is the the start index of the lowest word alphabetically.
