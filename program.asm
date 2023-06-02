@@ -37,7 +37,7 @@
                db "| \____) || \__. | | |    | |,   _| |_.' / | | | \__. | |, | || \__. | | | | | // | |, | |     \ '/ /  ", 13, 10
                db " \______.' '.__.' [___]   \__/  |______.' [___]'.___.'\__/[___]'.__.' [___||__]\'-;__/[___]  [\_:  /   ", 13, 10
                db "                                                                                              \__.'    ", 13, 10, '$'
-    
+    ;###
 .CODE
     proc takeStringInput
         ; CALL this function in order: offset str. 
@@ -52,48 +52,64 @@
         mov bp, sp
         
         push ax
-        push dx
+        push cx
         push bx
+        push dx
+        
+        xor ax, ax
+        xor bx, bx
+        xor cx, cx
+        xor dx, dx
         
         mov bx, [bp+4]
         mov ah, 01h
-        mov cl, 1
+        mov cl, 0
         charInputLoop:
             int 21h
             
+            ;#### ->
             cmp al, backspaceAscii
             je deleteOne
+            ;###
             
             cmp al, dotAscii
             je exitWithEndString
             jmp charInputLoop_continue
             
+            ;#### ->
             deleteOne:
+                mov dx, [bp+4]
+                inc dx
+                cmp bx, dx
+                jb next
+                
                 dec bx
+                dec cl
                 mov al, 0
                 jmp assignLast    
             
             charInputLoop_continue:
                 mov [bx], al
                 inc bx
+                inc cl
                 jmp next
                 
                 assignLast:
                     mov [bx], al
                 
                 next:
-                inc cl
                 cmp cl, strMaxLen   
                 jna charInputLoop
                 jmp exitProcTakeInput      
-        
+             ;####
         exitWithEndString:
             mov [bx], al
 
         ; exit the proc
         exitProcTakeInput:
-            pop bx     
             pop dx
+            pop bx     
+            pop cx
             pop ax
             
             pop bp
