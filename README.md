@@ -59,13 +59,7 @@ startIndex |     0, 6, 13, 19, 24  |  19, 6, 13, 0, 24 |  19, 0, 13, 6, 24 | 19,
 endIndex |       4, 11, 17, 22, 31 | 22, 11, 17, 4, 31 | 22, 4, 17, 11, 31 | 22, 4, 11, 17, 31 | 22, 4, 11, 31, 17
 expected output | slime,string,worth,pity,twilight. | pity,string,worth,slime,twilight. | pity,slime,worth,string,twilight. | pity,slime,string,worth,twilight. | pity,slime,string,twilight,worth.
 
-#### Sample 2
-word index (si)|     init      |   0  |  1  
- ------------- | ------------- | ---- | -----
-inputString | quotation,situation,necklace. | quotation,situation,necklace. | quotation,situation,necklace.
-startIndex | 0, 10, 20 | 11, 5, 0, 17, 22 | 11, 17, 0, 5, 22
-endIndex | 8, 18, 27 | 15, 9, 3, 20, 28 | 15, 20, 3, 9, 28
-expected output | arch,quite,alien,play,warrior. | alien,quite,arch,play,warrior. | alien,play,arch,quite,warrior.
+>**Note:** notice that in each iteration, the `si` indexb is only switched with indexes from the `si` index on, and the previous indexes remain untouched.
 
 <a name="use"></a>
 ## How to use the program?
