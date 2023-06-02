@@ -250,6 +250,8 @@ setLowest:
     mov [bx], al
 ```
 
+> **Note:** the two last pieces of code are parts of the `charLoop` loop.<br/>
+
 The char loop runs until only one lowest index is left, or until a word has no more letters, but it's last char matches the lowest char value(then it would be considered the lowest word, and its index will be saved, and the proc will exit). In the first case, at the end, only one word-index will be left, which is the the start index of the lowest word alphabetically.
 Therefore, this words' index is saved into `lowestWordIndex` and the proc exits.
 
@@ -257,7 +259,7 @@ Therefore, this words' index is saved into `lowestWordIndex` and the proc exits.
 In this step, I wrote a proc that takes string input from the user.
 The proc works this way:<br/>
 First, when calling the proc, an offset of an array(a buffer for a string) is passed as a pramater on the stack.
-Then, the program takes this offset, and uses it as a way to access each individual address in the array, by increasing the offset by 1 in every iteration of a loop, that takes a char input and stores it in the current offset. Additionally, in every iteration of the loop, the program will check if the dot symbol(that represents the end of the input string) occurs or if the string is full, meaning the loop has reached the max length of the string. If any of those happen to be true, then the loop exits, and the proc is finished.
+Then, the program takes this offset, and uses it as a way to access each individual address in the array, by increasing the offset by 1 in every iteration of a loop, that takes a char input and stores it in the current offset. Additionally, in every iteration of the loop, the program will check if the dot symbol(that represents the end of the input string) occurs or if the string is full, meaning the loop has reached the max length of the string. If any of those happen to be true, then the loop exits, and the proc is finished.<br/>
 The following code is the main part of the proc:
 ```assembly
 mov bx, [bp+4]
@@ -281,6 +283,28 @@ exitWithEndString:
      mov [bx], al
 ```
 
+<a name="switch"></a>
+### Writing the switchByteSize proc
+In this step, I wrote a proc that takes two byte-sized memory addresses and switches the values in these addresses between each other.
+I have done that by storing each address' value in a register, using bx to access these value.
+Then, using bx again, the program stores each value in the other address.<br/>
+The following code is the main part of the proc:<br/>
+```assembly
+mov bx, [bp+6] ; offset of var1
+mov al, [bx] ; value of var1
+
+xor bx, bx
+mov bx, [bp+4] ; offset of var2
+mov dl, [bx] ; value of var2
+
+; Switch the values
+mov [bx], al
+mov bx, [bp+6]
+mov [bx], dl
+```
+As you can tell, the `al` and `dl` registers hold the values of the two addresses, than `bx` is used to switch their 'places'.
+
+<a name="printWords"></a>
 ### Writing the printWords proc
 In this step, I wrote a proc that prints the words from the input string, according to the order of the indexes in the index arrays.<br/>
 The code for the proc is fairly simple. There are two loops. One that iterates through the startIndex array, 
@@ -340,26 +364,6 @@ exitProcPrintWords:
 ```
 As explained before, there are two loops in this proc, one that iterates on the words - `printWordsLoop`, and another one that iterates on the chars of each word - `printCharsLoop`.
 
-<a name="switch"></a>
-### Writing the switchByteSize proc
-In this step, I wrote a proc that takes two byte-sized memory addresses and switches the values in these addresses between each other.
-I have done that by storing each address' value in a register, using bx to access these value.
-Then, using bx again, the program stores each value in the other address.<br/>
-The following code is the main part of the proc:<br/>
-```assembly
-mov bx, [bp+6] ; offset of var1
-mov al, [bx] ; value of var1
-
-xor bx, bx
-mov bx, [bp+4] ; offset of var2
-mov dl, [bx] ; value of var2
-
-; Switch the values
-mov [bx], al
-mov bx, [bp+6]
-mov [bx], dl
-```
-As you can tell, the `al` and `dl` registers hold the values of the two addresses, than `bx` is used to switch their 'places'.
 
 ### Putting all the pieces together
 In this step, I wrote a proc that sorts the words alphabetically, using the procs defined in the previous steps.
@@ -443,7 +447,7 @@ proc Alphabetize
          pop bp 
 
          jmp testPrintW 
-         ;ret x ; check what is x ===================issue!!!!!!===============================  
+         ;ret x 
  endp Alphabetize
 ```
 I'll break up the lines line by line.<br/>
@@ -496,6 +500,9 @@ push ax
 push bx 
 call switchByteSize
 ```
+ 
+After doing this process in the `numOfWords-1` iterations of the `alphaLoop` loop, the indexes will be finally sorted according to the order of the words alphabetically.
+Then, the new word list can be printed using [the printWords proc](#printWords).
      
 
 <a name="plans"></a>
