@@ -59,7 +59,9 @@ startIndex |     0, 6, 13, 19, 24  |  19, 6, 13, 0, 24 |  19, 0, 13, 6, 24 | 19,
 endIndex |       4, 11, 17, 22, 31 | 22, 11, 17, 4, 31 | 22, 4, 17, 11, 31 | 22, 4, 11, 17, 31 | 22, 4, 11, 31, 17
 expected output | slime,string,worth,pity,twilight. | pity,string,worth,slime,twilight. | pity,slime,worth,string,twilight. | pity,slime,string,worth,twilight. | pity,slime,string,twilight,worth.
 
->**Note:** notice that in each iteration, the `si` indexb is only switched with indexes from the `si` index on, and the previous indexes remain untouched.
+>**Note:** notice that in each iteration, the `si` index is only switched with indexes from the `si` index on, and the previous indexes remain untouched.
+
+#### Other Image Samples
 
 <a name="use"></a>
 ## How to use the program?
