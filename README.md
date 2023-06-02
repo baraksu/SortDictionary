@@ -29,6 +29,7 @@ process it and return a new alphabeticaly sorted list of words.
 <a name="how"></a>
 ## How does it work?
 In this segment, we'll discuss how the program works in general.<br/>
+I'd reommend checking out [the full code](https://github.com/baraksu/SortDictionary/blob/main/program.asm), as well as reading the following segments.<br/>
 As mentioned before, this project was written completely in assembly language 8086.
 <br/><br/>
 The program consists of 5 major parts:<br/>
