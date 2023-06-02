@@ -214,6 +214,7 @@ findLowestLoop:
 After finding the lowest char value in char-index `di`, the program eliminates all the other indexes in the lowestIndex array, that doesn't have this char value in their `di` index. It does that by placing a special char in the indexes of these words in lowestIndex.<br/>
 In addition, the program sets the `lowestWordIndex` to the index of each word that it's `di` index is the lowest char value.<br/>
 The following code, achives that task:<br/>
+
 ```assembly
 ; get the offset of the word in startIndex
 mov bx, [bp+4]
