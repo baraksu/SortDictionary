@@ -459,8 +459,8 @@
             pop si
             pop bp
             
-            jmp testPrintW
-            ;ret x 
+            jmp ToPrintWords
+            ;ret 12 
     endp Alphabetize
     
     proc printWords
@@ -567,7 +567,7 @@
         call Alphabetize
         
         ; Print the sorted string
-        testPrintW:
+        ToPrintWords:
         lea dx, crlf
         mov ah, 09h
         int 21h
