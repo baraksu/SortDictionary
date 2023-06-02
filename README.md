@@ -224,7 +224,7 @@ eliminateNonLowestLoop:
         mov al, byte ptr [bp+12]
         cmp si, ax
         jb eliminateNonLowestLoop
-``````
+
 <br/>
 **Note:** the two last pieces of code are a part of the `charLoop` loop.
 <br/>
